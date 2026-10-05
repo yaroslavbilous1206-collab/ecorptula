@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Экосистема учебного центра «Родные просторы»</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<style>
+:root{
+  --bg:#1a1f26;
+  --surface:#2b333e;
+  --surface-2:#1f2833;
+  --surface-3:#252e38;
+  --surface-4:#1a222c;
+  --border:#3e4b5a;
+  --border-soft:rgba(255,255,255,0.06);
+  --text:#f0f4fa;
+  --text-2:#cbd8e6;
+  --muted:#a8b9cc;
+  --muted-2:#7a8fa0;
+  --gold:#d4a34b;
+  --gold-light:#e8b95c;
+  --gold-dark:#a37a2e;
+  --green:#4ade80;
+  --green-soft:rgba(74,222,128,0.12);
+  --red:#f87171;
+  --red-soft:rgba(248,113,113,0.12);
+  --blue:#60a5fa;
+  --blue-soft:rgba(96,165,250,0.12);
+  --purple:#a78bfa;
+  --purple-soft:rgba(167,139,250,0.12);
+  --cyan:#22d3ee;
+  --cyan-soft:rgba(34,211,238,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.45;
+  min-height:100vh;
+  padding:32px 20px 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px;margin:0 auto;}
+
+.view{display:none;animation:fadeIn .3s ease;}
+.view.active{display:block;}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* HERO */
+.hero{text-align:center;padding:30px 20px 44px;}
+.hero-logo{
+  width:170px;height:170px;margin:0 auto 20px;display:block;
+  filter:drop-shadow(0 12px 32px rgba(212,163,75,0.25));
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+.hero h1{
+  font-size:40px;font-weight:800;letter-spacing:-0.5px;
+  line-height:1.1;color:var(--text);margin-bottom:10px;
+}
+.hero h1 .accent{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero .subtitle{font-size:16px;color:var(--muted);margin-bottom:10px;font-weight:500;}
+.hero .greeting{
+  font-size:15px;color:var(--text-2);max-width:680px;
+  margin:0 auto;line-height:1.6;
+}
+.hero .greeting strong{color:var(--gold);font-weight:700;}
+@media(max-width:640px){
+  .hero-logo{width:120px;height:120px;}
+  .hero h1{font-size:24px;}
+  .hero .subtitle{font-size:14px;}
+  .hero .greeting{font-size:13.5px;}
+}
+
+/* NAV GRID */
+.nav-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;margin-bottom:32px;
+}
+.nav-card{
+  background:var(--surface);border-radius:20px;
+  padding:26px 24px 24px;border:1px solid var(--border-soft);
+  cursor:pointer;transition:.22s;text-align:left;
+  color:var(--text);font-family:inherit;
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+}
+.nav-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  opacity:0;transition:.22s;
+}
+.nav-card.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold-dark));}
+.nav-card.blue::before{background:linear-gradient(90deg,var(--blue),#3b82f6);}
+.nav-card.green::before{background:linear-gradient(90deg,var(--green),#22c55e);}
+.nav-card.purple::before{background:linear-gradient(90deg,var(--purple),#8b5cf6);}
+.nav-card.cyan::before{background:linear-gradient(90deg,var(--cyan),#0891b2);}
+.nav-card::after{
+  content:"→";position:absolute;right:22px;bottom:22px;
+  font-size:20px;color:var(--gold);opacity:0;
+  transform:translateX(-6px);transition:.22s;
+}
+.nav-card:hover{
+  border-color:var(--gold);transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(212,163,75,0.15);
+}
+.nav-card:hover::before{opacity:1;}
+.nav-card:hover::after{opacity:1;transform:translateX(0);}
+.nav-card .qc-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;background:var(--surface-3);
+  border:1px solid var(--border-soft);
+}
+.nav-card.gold .qc-icon{background:rgba(212,163,75,0.12);color:var(--gold);}
+.nav-card.blue .qc-icon{background:var(--blue-soft);color:var(--blue);}
+.nav-card.green .qc-icon{background:var(--green-soft);color:var(--green);}
+.nav-card.purple .qc-icon{background:var(--purple-soft);color:var(--purple);}
+.nav-card.cyan .qc-icon{background:var(--cyan-soft);color:var(--cyan);}
+.nav-card .qc-title{font-size:16px;font-weight:700;color:var(--text);line-height:1.3;}
+.nav-card .qc-desc{font-size:12.5px;color:var(--muted);line-height:1.5;padding-right:22px;}
+
+/* SECTION TITLE */
+.section-title{
+  font-size:12px;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--gold);margin:0 0 18px;font-weight:700;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--gold);}
+.section-title::after{content:"";flex:1;height:1px;background:var(--border-soft);}
+
+/* STATS */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;margin-bottom:20px;
+}
+.stat-card{
+  background:var(--surface);border-radius:20px;
+  padding:20px 20px 18px;border:1px solid var(--border-soft);
+  position:relative;overflow:hidden;transition:.2s;
+}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--border);}
+.stat-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-card.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold-dark));}
+.stat-card.blue::before{background:linear-gradient(90deg,var(--blue),#3b82f6);}
+.stat-card.green::before{background:linear-gradient(90deg,var(--green),#22c55e);}
+.stat-card.purple::before{background:linear-gradient(90deg,var(--purple),#8b5cf6);}
+.stat-card.cyan::before{background:linear-gradient(90deg,var(--cyan),#0891b2);}
+.stat-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted-2);font-weight:700;}
+.stat-icon{font-size:20px;opacity:.75;}
+.stat-value{font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1.1;}
+.stat-card.gold .stat-value{color:var(--gold-light);}
+.stat-card.blue .stat-value{color:var(--blue);}
+.stat-card.green .stat-value{color:var(--green);}
+.stat-card.purple .stat-value{color:var(--purple);}
+.stat-card.cyan .stat-value{color:var(--cyan);}
+.stat-sub{font-size:12px;color:var(--muted);margin-top:5px;font-weight:500;}
+
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-bottom:20px;}
+@media(max-width:1000px){.charts-grid{grid-template-columns:1fr;}}
+.chart-card{
+  background:var(--surface);border-radius:20px;
+  padding:22px 24px;border:1px solid var(--border-soft);
+}
+.chart-card h3{font-size:14px;font-weight:700;color:var(--text-2);margin-bottom:16px;letter-spacing:.02em;}
+.chart-wrap{position:relative;height:260px;}
+
+/* CARDS */
+.card{
+  background:var(--surface);border-radius:20px;
+  padding:24px 26px;margin-bottom:20px;
+  border:1px solid var(--border-soft);
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+}
+.card h2{
+  font-size:12px;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--gold);margin:0 0 18px;font-weight:700;
+  padding-bottom:14px;border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;gap:10px;
+}
+.card h2::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--gold);}
+
+/* BACK BAR */
+.back-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;margin-bottom:22px;flex-wrap:wrap;
+}
+.back-btn{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text-2);font-family:inherit;font-size:13px;
+  font-weight:600;padding:10px 18px;border-radius:12px;
+  cursor:pointer;transition:.18s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.back-btn:hover{background:var(--surface-3);color:var(--text);border-color:var(--gold);}
+.page-title h1{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.4px;margin-bottom:4px;}
+.page-title p{font-size:13px;color:var(--muted);}
+
+/* FORMS */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field label{
+  font-size:12px;font-weight:700;color:var(--muted);
+  letter-spacing:.08em;text-transform:uppercase;
+}
+input,select,textarea{
+  font-family:inherit;font-size:14px;
+  padding:11px 14px;border:1px solid var(--border);
+  border-radius:12px;background:var(--surface-2);
+  color:var(--text);transition:.18s;
+  width:100%;outline:none;font-weight:500;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,163,75,0.18);
+}
+input[readonly]{background:var(--surface-3);color:var(--muted);cursor:not-allowed;}
+input::placeholder,textarea::placeholder{color:var(--muted-2);}
+select{cursor:pointer;}
+option{background:var(--surface-2);color:var(--text);}
+
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.form-grid .full{grid-column:1/-1;}
+
+/* BUTTONS */
+.btn{
+  border:none;border-radius:12px;padding:12px 22px;
+  font-size:14px;font-weight:700;font-family:inherit;
+  cursor:pointer;transition:.18s;letter-spacing:.01em;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
+  color:#1a1f26;box-shadow:0 6px 18px rgba(212,163,75,0.32);
+}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px rgba(212,163,75,0.42);}
+.btn-green{
+  background:linear-gradient(135deg,#34d399,#059669);
+  color:#fff;box-shadow:0 6px 18px rgba(52,211,153,0.28);
+}
+.btn-green:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px rgba(52,211,153,0.4);}
+.btn-violet{
+  background:linear-gradient(135deg,#a78bfa,#6d28d9);
+  color:#fff;box-shadow:0 6px 18px rgba(167,139,250,0.28);
+}
+.btn-violet:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px rgba(167,139,250,0.4);}
+.btn-secondary{
+  background:var(--surface-2);color:var(--text-2);
+  border:1px solid var(--border);
+}
+.btn-secondary:hover:not(:disabled){background:var(--surface-3);border-color:var(--muted-2);color:var(--text);}
+.btn-danger{
+  background:var(--red-soft);color:var(--red);
+  border:1px solid rgba(248,113,113,0.3);
+}
+.btn-danger:hover:not(:disabled){background:var(--red);color:#fff;border-color:var(--red);}
+.btn-add{
+  background:var(--blue-soft);color:var(--blue);
+  border:1.5px dashed rgba(96,165,250,0.45);
+}
+.btn-add:hover:not(:disabled){background:rgba(96,165,250,0.2);}
+.btn-sm{padding:9px 14px;font-size:12.5px;border-radius:10px;}
+.full-btn{width:100%;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.actions.right{margin-left:auto;}
+
+/* STATUS */
+.mini-status{
+  margin-top:12px;font-size:13px;color:var(--green);font-weight:600;
+  display:none;padding:10px 14px;border-radius:10px;
+  background:var(--green-soft);border:1px solid rgba(74,222,128,0.25);
+}
+.mini-status.show{display:block;}
+.mini-status.err{color:var(--red);background:var(--red-soft);border-color:rgba(248,113,113,0.3);}
+
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,var(--surface),var(--surface-3));
+  color:var(--text);padding:14px 24px;border-radius:12px;
+  font-size:14px;font-weight:600;border:1px solid var(--border);
+  box-shadow:0 16px 40px rgba(0,0,0,0.5);
+  opacity:0;transition:.25s;pointer-events:none;z-index:999;
+  max-width:90vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* SPLIT */
+.split{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:18px;margin-bottom:20px;align-items:start;
+}
+@media(max-width:960px){.split{grid-template-columns:1fr;}}
+
+/* FORM CARDS */
+.form-head{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:18px;padding-bottom:16px;
+  border-bottom:1px solid var(--border-soft);
+}
+.form-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex:0 0 auto;
+}
+.form-card.inv .form-icon{background:var(--blue-soft);color:var(--blue);}
+.form-card.upd .form-icon{background:var(--green-soft);color:var(--green);}
+.form-card.pk .form-icon{background:var(--blue-soft);color:var(--blue);}
+.form-card.pp .form-icon{background:var(--purple-soft);color:var(--purple);}
+.form-head h3{font-size:15px;font-weight:700;color:var(--text);margin:0;}
+.form-sub{margin-top:3px;font-size:12px;color:var(--muted);font-weight:500;}
+
+/* ASSIGNED */
+.assigned{
+  background:var(--surface-2);
+  border:1px dashed var(--border);
+  border-radius:12px;padding:12px 16px;margin-bottom:16px;
+}
+.assigned-label{
+  color:var(--muted-2);font-weight:700;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;
+}
+.assigned-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;font-size:13px;padding:5px 0;
+}
+.assigned-row + .assigned-row{border-top:1px dotted var(--border);}
+.assigned-row .lbl{color:var(--muted);font-weight:600;font-size:12px;}
+.assigned-value{
+  font-family:'Consolas','Courier New',monospace;
+  font-weight:700;font-size:13.5px;letter-spacing:.01em;
+}
+.form-card.pk .assigned-value{color:var(--blue);}
+.form-card.pp .assigned-value{color:var(--purple);}
+.assigned-note{
+  margin-top:8px;padding-top:8px;
+  border-top:1px dotted var(--border);
+  font-size:11.5px;color:var(--muted-2);
+  line-height:1.5;font-style:italic;
+}
+
+.inv-info{
+  background:var(--green-soft);
+  border:1px solid rgba(74,222,128,0.25);
+  border-radius:12px;padding:12px 16px;margin-bottom:14px;
+  font-size:13px;display:none;
+}
+.inv-info.show{display:block;}
+.inv-info-row{display:flex;justify-content:space-between;gap:10px;padding:4px 0;}
+.inv-info-row .label{color:var(--green);font-weight:700;}
+.inv-info-row .val{font-weight:700;color:var(--text);text-align:right;}
+
+/* REGISTRY */
+.registry-head{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:16px;padding-bottom:14px;
+  border-bottom:1px solid var(--border-soft);
+}
+.registry-head h3{
+  font-size:12px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--gold);font-weight:700;margin:0;
+  display:flex;align-items:center;gap:10px;
+}
+.registry-head h3::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--gold);}
+.reg-card.upd .registry-head h3{color:var(--green);}
+.reg-card.upd .registry-head h3::before{background:var(--green);}
+.reg-card.pp .registry-head h3{color:var(--purple);}
+.reg-card.pp .registry-head h3::before{background:var(--purple);}
+.badge{
+  background:var(--surface-3);color:var(--muted);
+  font-size:12px;font-weight:700;border-radius:20px;
+  padding:5px 14px;letter-spacing:.02em;margin-left:auto;
+  border:1px solid var(--border-soft);
+}
+.reg-wrap{overflow-x:auto;margin:0 -4px;}
+.reg-table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px;}
+.reg-table th{
+  background:var(--surface-2);color:var(--muted-2);
+  font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+  text-align:left;padding:10px 12px;font-weight:700;
+  border-bottom:1px solid var(--border-soft);white-space:nowrap;
+}
+.reg-table td{
+  padding:12px;border-bottom:1px solid var(--border-soft);
+  vertical-align:middle;color:var(--text-2);
+}
+.reg-table tr:last-child td{border-bottom:none;}
+.reg-table tr:hover td{background:rgba(212,163,75,0.04);}
+.reg-table .num-cell{text-align:center;font-weight:700;color:var(--muted);width:40px;}
+.reg-table .num-cell-strong{
+  font-family:'Consolas','Courier New',monospace;
+  font-weight:700;color:var(--text);letter-spacing:.01em;white-space:nowrap;
+}
+.reg-card.inv .reg-table .num-cell-strong{color:var(--blue);}
+.reg-card.upd .reg-table .num-cell-strong{color:var(--green);}
+.reg-card.pk .reg-table .num-cell-strong{color:var(--blue);}
+.reg-card.pp .reg-table .num-cell-strong{color:var(--purple);}
+.reg-table .sub-line{
+  font-size:11.5px;color:var(--muted-2);margin-top:3px;
+  font-family:'Consolas','Courier New',monospace;
+}
+.reg-table .cust-cell{line-height:1.4;}
+.reg-table .cust-cell .name{font-weight:600;color:var(--text);}
+.reg-table .cust-cell .sum{
+  font-family:'Consolas','Courier New',monospace;
+  font-size:12.5px;color:var(--gold);font-weight:700;margin-top:3px;
+}
+.reg-table .holder-cell{line-height:1.35;}
+.reg-table .holder-cell .fio{font-weight:600;color:var(--text);}
+.reg-table .holder-cell .snils{
+  font-family:'Consolas','Courier New',monospace;
+  font-size:11.5px;color:var(--muted);margin-top:3px;
+}
+.reg-table .reg-cell{line-height:1.35;}
+.reg-table .reg-cell .rnum{
+  font-family:'Consolas','Courier New',monospace;
+  font-weight:700;color:var(--text);white-space:nowrap;
+}
+.reg-table .reg-cell .rdate{
+  font-size:11.5px;color:var(--muted-2);margin-top:3px;
+}
+.reg-empty{
+  text-align:center;color:var(--muted-2);font-size:13px;
+  padding:32px 12px;font-style:italic;
+}
+.del{
+  background:var(--red-soft);color:var(--red);
+  border:1px solid rgba(248,113,113,0.25);
+  border-radius:8px;width:32px;height:32px;
+  cursor:pointer;font-size:16px;font-weight:700;
+  line-height:1;transition:.15s;display:block;margin:0 auto;
+}
+.del:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.reg-foot{
+  margin-top:14px;padding-top:14px;
+  border-top:1px dashed var(--border-soft);
+  display:flex;justify-content:flex-end;
+}
+
+/* RESULTS TABLE */
+table.results{width:100%;border-collapse:separate;border-spacing:0 8px;}
+table.results th{
+  font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--muted-2);text-align:left;padding:6px 10px;font-weight:700;
+}
+table.results th.c{text-align:center;}
+table.results td{
+  background:var(--surface-2);padding:8px 10px;vertical-align:middle;
+  border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);
+}
+table.results td:first-child{
+  border-left:1px solid var(--border-soft);
+  border-top-left-radius:10px;border-bottom-left-radius:10px;
+  text-align:center;font-weight:700;color:var(--gold);width:52px;
+}
+table.results td:last-child{
+  border-right:1px solid var(--border-soft);
+  border-top-right-radius:10px;border-bottom-right-radius:10px;width:52px;
+}
+table.results td input,table.results td select{
+  background:var(--surface);font-size:13.5px;padding:8px 12px;border-radius:9px;
+}
+.results .del{width:36px;height:36px;border-radius:9px;font-size:18px;}
+
+.status{
+  margin-top:14px;padding:12px 18px;border-radius:12px;
+  font-size:13.5px;display:none;font-weight:500;
+}
+.status.ok{display:block;background:var(--green-soft);color:var(--green);border:1px solid rgba(74,222,128,0.25);}
+.status.err{display:block;background:var(--red-soft);color:var(--red);border:1px solid rgba(248,113,113,0.3);}
+.status.info{display:block;background:var(--blue-soft);color:var(--blue);border:1px solid rgba(96,165,250,0.3);}
+
+/* CALCULATOR */
+.calc-container{
+  max-width:820px;margin:0 auto;
+  background:var(--surface);border-radius:28px;
+  padding:36px 40px 40px;border:1px solid var(--border-soft);
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+@media(max-width:640px){.calc-container{padding:22px 18px;border-radius:20px;}}
+.calc-header{
+  margin-bottom:26px;padding-bottom:18px;
+  border-bottom:1px solid var(--border-soft);
+}
+.calc-header .center-name{
+  font-size:26px;font-weight:800;color:var(--text);
+  letter-spacing:-.5px;display:flex;align-items:center;gap:12px;
+}
+.calc-header .center-name .icon{font-size:30px;}
+.calc-header .subtitle{
+  font-size:16px;font-weight:500;color:var(--muted);
+  margin-top:6px;display:flex;align-items:center;gap:8px;
+}
+.calc-header .subtitle::before{content:"—";color:var(--muted-2);font-weight:300;}
+@media(max-width:640px){
+  .calc-header .center-name{font-size:20px;}
+  .calc-header .subtitle{font-size:14px;}
+}
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-bottom:28px;}
+@media(max-width:640px){.input-grid{grid-template-columns:1fr;gap:12px;}}
+.input-group{display:flex;flex-direction:column;gap:5px;}
+.input-group label{
+  font-size:11.5px;font-weight:700;color:var(--muted);
+  letter-spacing:.08em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+}
+.input-group label .icon{font-size:15px;}
+.input-group input{
+  padding:12px 16px;border:1px solid var(--border);
+  border-radius:12px;font-size:16px;font-weight:600;
+  color:var(--text);background:var(--surface-2);transition:.18s;
+}
+.input-group input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,163,75,0.2);
+}
+.input-group input[type=number]{-moz-appearance:textfield;}
+.input-group input[type=number]::-webkit-outer-spin-button,
+.input-group input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.input-hint{font-size:11.5px;color:var(--muted-2);font-weight:500;}
+.margin-section{margin:24px 0 28px;}
+.margin-section .label-row{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
+}
+.margin-section .label-row span{
+  font-size:12px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.08em;
+}
+.margin-section .label-row .selected-margin{
+  font-size:18px;font-weight:800;color:var(--gold);
+  background:var(--surface-2);padding:5px 18px;border-radius:40px;
+  border:1px solid var(--border);
+}
+.margin-buttons{display:flex;flex-wrap:wrap;gap:8px;}
+.margin-btn{
+  flex:1 0 calc(16.66% - 8px);min-width:56px;padding:11px 0;
+  border:1px solid transparent;border-radius:40px;
+  background:var(--surface-2);font-family:inherit;font-size:14px;
+  font-weight:700;color:var(--muted);cursor:pointer;
+  transition:.18s;text-align:center;
+}
+.margin-btn:hover{background:var(--surface-3);color:var(--text-2);}
+.margin-btn.active{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
+  color:#1a1f26;box-shadow:0 6px 18px rgba(212,163,75,0.3);
+}
+.margin-btn:active{transform:scale(.96);}
+@media(max-width:600px){.margin-btn{flex:1 0 calc(33.33% - 8px);}}
+.results-box{
+  background:var(--surface-2);border-radius:18px;
+  padding:22px 26px;border:1px solid var(--border-soft);
+}
+.result-row{
+  display:flex;justify-content:space-between;padding:10px 0;
+  border-bottom:1px solid var(--border-soft);font-size:14.5px;
+}
+.result-row:last-child{border-bottom:none;}
+.result-row .label{color:var(--muted);font-weight:500;}
+.result-row .value{font-weight:700;color:var(--text);}
+.result-row.total{
+  border-top:2px solid var(--border);border-bottom:none;
+  padding-top:16px;margin-top:6px;font-size:17px;
+}
+.result-row.total .label{font-weight:800;color:var(--text);}
+.result-row.total .value{font-size:22px;font-weight:800;color:var(--gold-light);}
+.result-row.highlight .value{color:var(--gold);}
+.calc-note{
+  font-size:12.5px;color:var(--muted-2);margin-top:18px;
+  padding:14px 18px;background:var(--surface-4);
+  border-radius:12px;line-height:1.6;border-left:3px solid var(--gold);
+}
+.calc-note strong{color:var(--text-2);}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:var(--muted-2);}
+
+/* FOOTER */
+.footer{
+  margin-top:40px;padding-top:24px;
+  border-top:1px solid var(--border-soft);
+  text-align:center;font-size:12px;color:var(--muted-2);
+  line-height:1.7;
+}
+.footer strong{color:var(--muted);font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===================== HOME ===================== -->
+  <section id="view-home" class="view active">
+    <div class="hero">
+      <svg class="hero-logo" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hWing" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e8eef4"/><stop offset="100%" stop-color="#6b7d8f"/>
+          </linearGradient>
+          <linearGradient id="hWingDark" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a9bab"/><stop offset="100%" stop-color="#3a4a5a"/>
+          </linearGradient>
+          <linearGradient id="hGold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e8b95c"/><stop offset="100%" stop-color="#a37a2e"/>
+          </linearGradient>
+        </defs>
+        <path d="M84 24 Q90 16 100 18 Q108 13 116 20 Q124 24 121 34 Q118 42 110 40 Q106 46 98 43 Q90 46 84 41 Q78 34 84 24 Z" fill="#4a5a6a" opacity="0.75"/>
+        <path d="M 100 72 Q 55 26 18 20 Q 44 56 100 82 Z" fill="url(#hWing)"/>
+        <path d="M 100 82 Q 44 56 14 60 Q 42 86 100 94 Z" fill="url(#hWingDark)"/>
+        <path d="M 100 94 Q 50 84 20 96 Q 50 114 100 104 Z" fill="url(#hWing)"/>
+        <path d="M 100 72 Q 145 26 182 20 Q 156 56 100 82 Z" fill="url(#hWing)"/>
+        <path d="M 100 82 Q 156 56 186 60 Q 158 86 100 94 Z" fill="url(#hWingDark)"/>
+        <path d="M 100 94 Q 150 84 180 96 Q 150 114 100 104 Z" fill="url(#hWing)"/>
+        <path d="M 100 105 Q 68 100 46 110 L 46 130 Q 68 120 100 126 Z" fill="#dde5ed"/>
+        <path d="M 100 105 Q 132 100 154 110 L 154 130 Q 132 120 100 126 Z" fill="#dde5ed"/>
+        <line x1="100" y1="105" x2="100" y2="126" stroke="#a37a2e" stroke-width="1.5"/>
+        <path d="M 42 128 Q 100 122 158 128 L 158 136 Q 100 130 42 136 Z" fill="url(#hGold)"/>
+      </svg>
+      <h1>ЭКОСИСТЕМА<br><span class="accent">УЧЕБНОГО ЦЕНТРА</span><br>«РОДНЫЕ ПРОСТОРЫ»</h1>
+      <p class="subtitle">Цифровое пространство управления учебным центром</p>
+      <p class="greeting" id="greeting">Добро пожаловать!</p>
+    </div>
+
+    <div class="section-title">Разделы системы</div>
+    <div class="nav-grid">
+      <button class="nav-card gold" data-view="calc">
+        <div class="qc-icon">🧮</div>
+        <div class="qc-title">Калькулятор стоимости</div>
+        <div class="qc-desc">Расчёт себестоимости и итоговой стоимости закупки с наценкой и налогом</div>
+      </button>
+      <button class="nav-card blue" data-view="docs">
+        <div class="qc-icon">🧾</div>
+        <div class="qc-title">Закрывающие документы</div>
+        <div class="qc-desc">Реестр счетов на оплату и универсальных передаточных документов</div>
+      </button>
+      <button class="nav-card cyan" data-view="finaldocs">
+        <div class="qc-icon">🏛️</div>
+        <div class="qc-title">Итоговые документы</div>
+        <div class="qc-desc">Реестр бланков строгой отчётности: удостоверения ПК и дипломы ПП</div>
+      </button>
+      <button class="nav-card purple" data-view="attest">
+        <div class="qc-icon">⚖️</div>
+        <div class="qc-title">Итоговая аттестация</div>
+        <div class="qc-desc">Формирование протоколов аттестационной комиссии в формате Word</div>
+      </button>
+      <button class="nav-card green" data-view="enroll">
+        <div class="qc-icon">📚</div>
+        <div class="qc-title">Приказы о зачислении</div>
+        <div class="qc-desc">Формирование приказов о зачислении слушателей в учебный центр</div>
+      </button>
+    </div>
+
+    <div class="section-title">Аналитика</div>
+
+    <div class="stats-grid">
+      <div class="stat-card gold">
+        <div class="stat-head"><span class="stat-label">Счета</span><span class="stat-icon">💳</span></div>
+        <div class="stat-value" id="statInvSum">0 ₽</div>
+        <div class="stat-sub" id="statInvCount">0 документов</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-head"><span class="stat-label">УПД</span><span class="stat-icon">📑</span></div>
+        <div class="stat-value" id="statUpdSum">0 ₽</div>
+        <div class="stat-sub" id="statUpdCount">0 документов</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="stat-head"><span class="stat-label">Итоговые документы</span><span class="stat-icon">🏛️</span></div>
+        <div class="stat-value" id="statFinalCount">0</div>
+        <div class="stat-sub" id="statFinalSub">ПК: 0 · ПП: 0</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-head"><span class="stat-label">Приказы о зачислении</span><span class="stat-icon">📚</span></div>
+        <div class="stat-value" id="statEnrollCount">0</div>
+        <div class="stat-sub" id="statEnrollSub">0 обучающихся</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-head"><span class="stat-label">Протоколы аттестации</span><span class="stat-icon">⚖️</span></div>
+        <div class="stat-value" id="statAttestCount">0</div>
+        <div class="stat-sub" id="statAttestSub">0 слушателей прошли</div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>📈 Динамика по месяцам</h3>
+        <div class="chart-wrap"><canvas id="monthlyChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>🥧 Структура документов</h3>
+        <div class="chart-wrap"><canvas id="typesChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CALCULATOR ===================== -->
+  <section id="view-calc" class="view">
+    <div class="back-bar">
+      <div class="page-title">
+        <h1>🧮 Калькулятор снижения стоимости</h1>
+        <p>Расчёт итоговой стоимости участия в закупке</p>
+      </div>
+      <button class="back-btn" data-back>← На главную</button>
+    </div>
+    <div class="calc-container">
+      <div class="calc-header">
+        <div class="center-name"><span class="icon">🏛️</span> Учебный центр «Родные просторы»</div>
+        <div class="subtitle">Калькулятор снижения стоимости</div>
+      </div>
+      <div class="input-grid">
+        <div class="input-group">
+          <label><span class="icon">👥</span> Количество обучающихся</label>
+          <input type="number" id="students" value="10" min="1" step="1">
+          <div class="input-hint">человек</div>
+        </div>
+        <div class="input-group">
+          <label><span class="icon">📄</span> Стоимость бланка строгой отчётности</label>
+          <input type="number" id="blankCost" value="50" min="0" step="0.5">
+          <div class="input-hint">рублей за 1 шт.</div>
+        </div>
+        <div class="input-group">
+          <label><span class="icon">📮</span> Отправка письма (Почта России)</label>
+          <input type="number" id="shipping" value="300" min="0" step="10">
+          <div class="input-hint">рублей за одно письмо</div>
+        </div>
+        <div class="input-group">
+          <label><span class="icon">🏦</span> Комиссия тендерной площадки</label>
+          <input type="number" id="commission" value="500" min="0" step="10">
+          <div class="input-hint">рублей (сумма)</div>
+        </div>
+        <div class="input-group">
+          <label><span class="icon">💻</span> Тариф СДО</label>
+          <input type="number" id="sdoTariff" value="0" min="0" step="10">
+          <div class="input-hint">рублей за 1 обучающегося</div>
+        </div>
+      </div>
+      <div class="margin-section">
+        <div class="label-row">
+          <span>💰 Наценка (чистая прибыль)</span>
+          <span class="selected-margin" id="selectedMarginDisplay">50%</span>
+        </div>
+        <div class="margin-buttons" id="marginButtons">
+          <button class="margin-btn active" data-margin="50">50%</button>
+          <button class="margin-btn" data-margin="80">80%</button>
+          <button class="margin-btn" data-margin="100">100%</button>
+          <button class="margin-btn" data-margin="120">120%</button>
+          <button class="margin-btn" data-margin="140">140%</button>
+          <button class="margin-btn" data-margin="160">160%</button>
+        </div>
+      </div>
+      <div class="results-box">
+        <div class="result-row"><span class="label">📋 Бланки (кол-во × цена)</span><span class="value" id="blanksTotal">500 ₽</span></div>
+        <div class="result-row"><span class="label">💻 СДО (кол-во × тариф)</span><span class="value" id="sdoTotal">0 ₽</span></div>
+        <div class="result-row"><span class="label">📮 Отправка</span><span class="value" id="shippingTotal">300 ₽</span></div>
+        <div class="result-row"><span class="label">🏦 Комиссия</span><span class="value" id="commissionTotal">500 ₽</span></div>
+        <div class="result-row" style="border-bottom:2px solid var(--border);padding-bottom:12px;">
+          <span class="label" style="font-weight:700;color:var(--text);">📌 Итого себестоимость</span>
+          <span class="value" id="costTotal" style="font-weight:800;">1 300 ₽</span>
+        </div>
+        <div class="result-row"><span class="label">📈 Наценка (<span id="marginPercentLabel">50</span>%)</span><span class="value highlight" id="marginAmount">650 ₽</span></div>
+        <div class="result-row"><span class="label">💵 Сумма с наценкой (до налога)</span><span class="value" id="subtotal">1 950 ₽</span></div>
+        <div class="result-row"><span class="label">🧾 Налог 6%</span><span class="value" id="taxAmount">117 ₽</span></div>
+        <div class="result-row total">
+          <span class="label">🔹 Итоговая стоимость снижения по закупке</span>
+          <span class="value" id="finalPrice">2 067 ₽</span>
+        </div>
+      </div>
+      <div class="calc-note">
+        <strong>Как считаем:</strong> себестоимость = (бланки + СДО + отправка + комиссия).
+        Тариф СДО указывается за 1 обучающегося и умножается на их количество.
+        Наценка прибавляется к себестоимости, затем на всю сумму начисляется налог 6%.
+        <span style="display:inline-block;margin-top:6px;color:var(--muted);">✅ Все суммы округлены до целых рублей.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DOCUMENTS ===================== -->
+  <section id="view-docs" class="view">
+    <div class="back-bar">
+      <div class="page-title">
+        <h1>🧾 Реестр закрывающих бухгалтерских документов</h1>
+        <p>Счета на оплату и УПД · выгрузка в XML</p>
+      </div>
+      <button class="back-btn" data-back>← На главную</button>
+    </div>
+
+    <div class="split">
+      <div class="card form-card inv">
+        <div class="form-head">
+          <div class="form-icon">💳</div>
+          <div><h3>Счёт на оплату</h3><div class="form-sub">Нумерация: 0001/ОБ-<span class="curYear">2026</span></div></div>
+        </div>
+        <div class="assigned">
+          <div class="assigned-label">Будет присвоено</div>
+          <div class="assigned-value" id="invPreview">—</div>
+          <div class="assigned-note">Номер сквозной: 0001, 0002, 0003 … /ОБ-текущий год</div>
+        </div>
+        <div class="field"><label>Заказчик *</label><input type="text" id="invCustomer" placeholder="ООО «Ромашка», ИНН 7701234567" autocomplete="off"></div>
+        <div class="field"><label>Сумма по счёту, ₽ *</label><input type="number" id="invAmount" placeholder="15000.00" step="0.01" min="0" inputmode="decimal"></div>
+        <button type="button" class="btn btn-primary full-btn" id="invAdd">➕ Добавить счёт</button>
+        <div class="mini-status" id="invStatus"></div>
+      </div>
+      <div class="card form-card upd">
+        <div class="form-head">
+          <div class="form-icon">📑</div>
+          <div><h3>Универсальный передаточный документ</h3><div class="form-sub">Формируется на основании счёта</div></div>
+        </div>
+        <div class="assigned">
+          <div class="assigned-label">Будет присвоено</div>
+          <div class="assigned-value" id="updPreview">—</div>
+          <div class="assigned-note">Формат: ДД.ММ/ГГГГ-ОБ · при повторе за день — префикс 01-, 02-, …</div>
+        </div>
+        <div class="field"><label>На основании счёта *</label><select id="updInvoice"><option value="">— выберите счёт —</option></select></div>
+        <div class="inv-info" id="updInfo">
+          <div class="inv-info-row"><span class="label">Заказчик:</span><span class="val" id="updInfoCustomer">—</span></div>
+          <div class="inv-info-row"><span class="label">Сумма:</span><span class="val" id="updInfoAmount">—</span></div>
+        </div>
+        <button type="button" class="btn btn-green full-btn" id="updAdd">🧾 Сформировать УПД</button>
+        <div class="mini-status" id="updStatus"></div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="card reg-card inv">
+        <div class="registry-head"><h3>Реестр счетов на оплату</h3><span class="badge" id="invCount">0 документов</span></div>
+        <div class="reg-wrap"><div id="invRegistry"></div></div>
+        <div class="reg-foot"><button type="button" class="btn btn-secondary btn-sm" id="invExportXml">⬇ Экспорт счетов в XML</button></div>
+      </div>
+      <div class="card reg-card upd">
+        <div class="registry-head"><h3>Реестр УПД</h3><span class="badge" id="updCount">0 документов</span></div>
+        <div class="reg-wrap"><div id="updRegistry"></div></div>
+        <div class="reg-foot"><button type="button" class="btn btn-secondary btn-sm" id="updExportXml">⬇ Экспорт УПД в XML</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="actions">
+        <button type="button" class="btn btn-secondary" id="exportAllXml">⬇ Экспорт всего реестра в XML</button>
+        <button type="button" class="btn btn-danger right" id="clearRegistry">Очистить реестр</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FINAL DOCS ===================== -->
+  <section id="view-finaldocs" class="view">
+    <div class="back-bar">
+      <div class="page-title">
+        <h1>🏛️ Реестр итоговых документов</h1>
+        <p>Бланки строгой отчётности: удостоверения ПК и дипломы ПП · выгрузка в XML</p>
+      </div>
+      <button class="back-btn" data-back>← На главную</button>
+    </div>
+
+    <div class="split">
+      <div class="card form-card pk">
+        <div class="form-head">
+          <div class="form-icon">🎓</div>
+          <div><h3>Удостоверение о повышении квалификации</h3><div class="form-sub">Бланк серии ПК</div></div>
+        </div>
+        <div class="assigned">
+          <div class="assigned-label">Будет присвоено</div>
+          <div class="assigned-row"><span class="lbl">Порядковый номер</span><span class="assigned-value" id="pkOrder">—</span></div>
+          <div class="assigned-row"><span class="lbl">Серия и номер бланка</span><span class="assigned-value" id="pkBlank">—</span></div>
+          <div class="assigned-row"><span class="lbl">Регистрационный номер</span><span class="assigned-value" id="pkReg">—</span></div>
+        </div>
+        <div class="field"><label>Ф.И.О. слушателя *</label><input type="text" id="pkFio" placeholder="Фамилия Имя Отчество" autocomplete="off"></div>
+        <div class="field"><label>СНИЛС *</label><input type="text" id="pkSnils" placeholder="123-456-789 00" maxlength="14" autocomplete="off" inputmode="numeric"></div>
+        <button type="button" class="btn btn-primary full-btn" id="pkAdd">➕ Добавить в реестр</button>
+        <div class="mini-status" id="pkStatus"></div>
+      </div>
+
+      <div class="card form-card pp">
+        <div class="form-head">
+          <div class="form-icon">📜</div>
+          <div><h3>Диплом о профессиональной переподготовке</h3><div class="form-sub">Бланк серии ПП</div></div>
+        </div>
+        <div class="assigned">
+          <div class="assigned-label">Будет присвоено</div>
+          <div class="assigned-row"><span class="lbl">Порядковый номер</span><span class="assigned-value" id="ppOrder">—</span></div>
+          <div class="assigned-row"><span class="lbl">Серия и номер бланка</span><span class="assigned-value" id="ppBlank">—</span></div>
+          <div class="assigned-row"><span class="lbl">Регистрационный номер</span><span class="assigned-value" id="ppReg">—</span></div>
+        </div>
+        <div class="field"><label>Ф.И.О. слушателя *</label><input type="text" id="ppFio" placeholder="Фамилия Имя Отчество" autocomplete="off"></div>
+        <div class="field"><label>СНИЛС *</label><input type="text" id="ppSnils" placeholder="123-456-789 00" maxlength="14" autocomplete="off" inputmode="numeric"></div>
+        <button type="button" class="btn btn-violet full-btn" id="ppAdd">➕ Добавить в реестр</button>
+        <div class="mini-status" id="ppStatus"></div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="card reg-card pk">
+        <div class="registry-head"><h3>Реестр удостоверений ПК</h3><span class="badge" id="pkCount">0 документов</span></div>
+        <div class="reg-wrap"><div id="pkRegistry"></div></div>
+        <div class="reg-foot"><button type="button" class="btn btn-secondary btn-sm" id="pkExportXml">⬇ Экспорт ПК в XML</button></div>
+      </div>
+      <div class="card reg-card pp">
+        <div class="registry-head"><h3>Реестр дипломов ПП</h3><span class="badge" id="ppCount">0 документов</span></div>
+        <div class="reg-wrap"><div id="ppRegistry"></div></div>
+        <div class="reg-foot"><button type="button" class="btn btn-secondary btn-sm" id="ppExportXml">⬇ Экспорт ПП в XML</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="actions">
+        <button type="button" class="btn btn-secondary" id="finalExportAllXml">⬇ Экспорт всего реестра в XML</button>
+        <button type="button" class="btn btn-danger right" id="finalClearRegistry">Очистить реестр</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ATTESTATION ===================== -->
+  <section id="view-attest" class="view">
+    <div class="back-bar">
+      <div class="page-title">
+        <h1>⚖️ Протокол итоговой аттестации</h1>
+        <p>Формирование протоколов аттестационной комиссии · Word и реестр в XML</p>
+      </div>
+      <button class="back-btn" data-back>← На главную</button>
+    </div>
+    <div class="card">
+      <h2>Параметры протокола</h2>
+      <div class="form-grid">
+        <div class="field"><label>Номер протокола</label><input type="text" id="a_docNum" value="1"></div>
+        <div class="field"><label>Дата протокола</label><input type="date" id="a_docDate"></div>
+        <div class="field"><label>Место составления</label><input type="text" id="a_place" value="г. Тула"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Повестка дня</h2>
+      <div class="form-grid">
+        <div class="field full"><label>Программа профессиональной переподготовки</label><input type="text" id="a_program" placeholder="например: «Менеджмент в образовательной организации»"></div>
+        <div class="field"><label>Количество часов</label><input type="number" id="a_hours" min="0" placeholder="256"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Состав комиссии</h2>
+      <div class="form-grid">
+        <div class="field"><label>Председатель комиссии</label><input type="text" id="a_chairman" value="П.К. Соколов"></div>
+        <div class="field"><label>Секретарь комиссии</label><input type="text" id="a_secretary" value="Я.В. Билоус"></div>
+        <div class="field"><label>Директор</label><input type="text" id="a_director" value="П.К. Соколов"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Результаты аттестации</h2>
+      <table class="results">
+        <thead><tr>
+          <th class="c">№ п/п</th>
+          <th>Ф.И.О обучающегося (слушателя)</th>
+          <th class="c" style="width:230px">Полученная оценка</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="a_rows"></tbody>
+      </table>
+      <div class="actions" style="margin-top:14px">
+        <button type="button" class="btn btn-add" id="a_addRow">+ Добавить обучающегося</button>
+        <span style="font-size:12.5px;color:var(--muted);">Оценки: отлично, хорошо, удовлетворительно, зачётно.</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="a_generate">📄 Сформировать протокол (.docx)</button>
+        <button type="button" class="btn btn-secondary" id="a_exportXml">⬇ Экспорт реестра в XML</button>
+        <button type="button" class="btn btn-danger right" id="a_clearRegistry">Очистить реестр</button>
+      </div>
+      <div class="status" id="a_status"></div>
+    </div>
+    <div class="card">
+      <div class="registry-head"><h3>Реестр проведённых аттестаций</h3><span class="badge" id="a_regCount">0 протоколов</span></div>
+      <div id="a_registryBox"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ENROLLMENT ===================== -->
+  <section id="view-enroll" class="view">
+    <div class="back-bar">
+      <div class="page-title">
+        <h1>📚 Приказ о зачислении обучающихся</h1>
+        <p>Формирование приказов · Word и реестр в XML</p>
+      </div>
+      <button class="back-btn" data-back>← На главную</button>
+    </div>
+    <div class="card">
+      <h2>Параметры приказа</h2>
+      <div class="form-grid">
+        <div class="field"><label>Номер приказа</label><input type="text" id="e_docNum" value="1"></div>
+        <div class="field"><label>Дата приказа</label><input type="date" id="e_docDate"></div>
+        <div class="field"><label>Место составления</label><input type="text" id="e_place" value="г. Тула"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Период и программа обучения</h2>
+      <div class="form-grid">
+        <div class="field"><label>Зачислить с</label><input type="date" id="e_dateFrom"></div>
+        <div class="field"><label>Зачислить по</label><input type="date" id="e_dateTo"></div>
+        <div class="field full"><label>Название программы обучения</label><input type="text" id="e_program" placeholder="например: «Менеджмент в образовательной организации»"></div>
+        <div class="field"><label>Количество часов</label><input type="number" id="e_hours" min="0" placeholder="256"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Руководитель учебного центра</h2>
+      <div class="form-grid">
+        <div class="field"><label>Должность подписанта</label><input type="text" id="e_signRole" value="Директор"></div>
+        <div class="field"><label>ФИО подписанта</label><input type="text" id="e_signName" value="П.К. Соколов"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Обучающиеся (слушатели)</h2>
+      <table class="results">
+        <thead><tr>
+          <th class="c">№ п/п</th>
+          <th>Ф.И.О обучающегося (слушателя)</th>
+          <th class="c" style="width:230px">Дата рождения</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="e_rows"></tbody>
+      </table>
+      <div class="actions" style="margin-top:14px">
+        <button type="button" class="btn btn-add" id="e_addRow">+ Добавить обучающегося</button>
+        <span style="font-size:12.5px;color:var(--muted);">Дата рождения — в формате ДД.ММ.ГГГГ.</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="e_generate">📄 Сформировать приказ (.docx)</button>
+        <button type="button" class="btn btn-secondary" id="e_exportXml">⬇ Экспорт реестра в XML</button>
+        <button type="button" class="btn btn-danger right" id="e_clearRegistry">Очистить реестр</button>
+      </div>
+      <div class="status" id="e_status"></div>
+    </div>
+    <div class="card">
+      <div class="registry-head"><h3>Реестр приказов о зачислении</h3><span class="badge" id="e_regCount">0 приказов</span></div>
+      <div id="e_registryBox"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <strong>ООО «РОДНЫЕ ПРОСТОРЫ»</strong> · ИНН 7106086032 · КПП 710601001 · ОГРН 1197154009304<br>
+    300004, Тульская область, г. Тула, Загородный пр-д, д. 7а, кв. 59 · rptula@mail.ru · +7 (920) 790-33-19
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+const $ = id => document.getElementById(id);
+const toastEl = $("toast");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad = n => String(n).padStart(2,"0");
+const pad4 = n => String(n).padStart(4,"0");
+const pad6 = n => String(n).padStart(6,"0");
+
+const ORG = {
+  name:'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "РОДНЫЕ ПРОСТОРЫ"',
+  requisites:'ИНН 7106086032, КПП 710601001, ОГРН 1197154009304',
+  address:'300004, Тульская область, г. Тула, Загородный пр-д, д. 7а, кв. 59',
+  contacts:'Электронная почта: rptula@mail.ru, Телефон: +7 (920) 790-33-19',
+  short:'ООО «РОДНЫЕ ПРОСТОРЫ»',
+  inn:'7106086032', kpp:'710601001', ogrn:'1197154009304',
+  email:'rptula@mail.ru', phone:'+7 (920) 790-33-19'
+};
+
+function todayISO(){
+  const t = new Date();
+  return `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`;
+}
+function fmtDMY(iso){
+  if(!iso) return "";
+  const [y,m,d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+}
+function longDateRU(iso){
+  if(!iso) return "«___» ______________ 20__ г.";
+  const months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+  const [y,m,d] = iso.split("-");
+  return `«${pad(parseInt(d,10))}» ${months[parseInt(m,10)-1]} ${y} г.`;
+}
+function fmtMoney(n){
+  const num = Number(n) || 0;
+  return new Intl.NumberFormat("ru-RU",{minimumFractionDigits:2,maximumFractionDigits:2}).format(num) + " ₽";
+}
+function fmtMoneyShort(n){
+  const num = Number(n) || 0;
+  if(num >= 1e6) return (num/1e6).toFixed(1).replace(".",",") + " млн ₽";
+  if(num >= 1e3) return Math.round(num/1e3).toLocaleString("ru-RU") + " тыс ₽";
+  return Math.round(num).toLocaleString("ru-RU") + " ₽";
+}
+function plural(n, forms){
+  const n10 = n % 10, n100 = n % 100;
+  if(n10 === 1 && n100 !== 11) return forms[0];
+  if(n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return forms[1];
+  return forms[2];
+}
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("show"), 2400);
+}
+function showMini(el, msg, isErr){
+  el.textContent = msg;
+  el.classList.remove("err");
+  if(isErr) el.classList.add("err");
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove("show"), 3500);
+}
+function downloadBlob(content, mime, filename){
+  const blob = new Blob([content], {type: mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+/* НАВИГАЦИЯ */
+const navCards = document.querySelectorAll(".nav-card");
+const backBtns = document.querySelectorAll("[data-back]");
+const views = document.querySelectorAll(".view");
+
+function switchView(name){
+  views.forEach(v => v.classList.toggle("active", v.id === "view-"+name));
+  window.scrollTo({top:0, behavior:"smooth"});
+  if(name === "home") renderDashboard();
+}
+navCards.forEach(b => b.addEventListener("click", () => switchView(b.dataset.view)));
+backBtns.forEach(b => b.addEventListener("click", () => switchView("home")));
+
+/* ПРИВЕТСТВИЕ */
+function updateGreeting(){
+  const h = new Date().getHours();
+  let g = "Добрый день";
+  if(h < 5) g = "Доброй ночи";
+  else if(h < 12) g = "Доброе утро";
+  else if(h < 18) g = "Добрый день";
+  else g = "Добрый вечер";
+  const el = $("greeting");
+  if(el) el.innerHTML = `<strong>${g}!</strong> Рады видеть вас в цифровой экосистеме учебного центра «Родные просторы». Здесь собраны все ключевые инструменты для управления учебным процессом, документооборотом и финансами.`;
+}
+
+/* АНАЛИТИКА */
+const KEY_DOCS = "accounting_docs_registry_v1";
+const KEY_ATT = "attestation_registry_v1";
+const KEY_ENR = "enrollment_registry_v1";
+const KEY_FINAL = "final_docs_registry_v1";
+
+function loadLS(key){
+  try{
+    const raw = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(raw) ? raw : [];
+  }catch(e){ return []; }
+}
+const getDocs = () => loadLS(KEY_DOCS);
+const getAttest = () => loadLS(KEY_ATT);
+const getEnroll = () => loadLS(KEY_ENR);
+const getFinalDocs = () => loadLS(KEY_FINAL);
+
+let monthlyChartInst = null;
+let typesChartInst = null;
+
+function renderDashboard(){
+  updateGreeting();
+  const docs = getDocs();
+  const atts = getAttest();
+  const enrs = getEnroll();
+  const finals = getFinalDocs();
+
+  const invs = docs.filter(d => d.type === "INV");
+  const upds = docs.filter(d => d.type === "UPD");
+  const pks = finals.filter(f => f.type === "PK");
+  const pps = finals.filter(f => f.type === "PP");
+
+  const invSum = invs.reduce((s,x) => s + (Number(x.amount)||0), 0);
+  const updSum = upds.reduce((s,x) => s + (Number(x.amount)||0), 0);
+  const totalStudents = enrs.reduce((s,o) => s + (o.participants ? o.participants.length : 0), 0);
+  const passedCount = atts.reduce((s,p) => s + (p.passedCount || (p.participants?p.participants.length:0) || 0), 0);
+
+  $("statInvSum").textContent = fmtMoneyShort(invSum);
+  $("statInvCount").textContent = invs.length + " " + plural(invs.length, ["документ","документа","документов"]);
+  $("statUpdSum").textContent = fmtMoneyShort(updSum);
+  $("statUpdCount").textContent = upds.length + " " + plural(upds.length, ["документ","документа","документов"]);
+  $("statFinalCount").textContent = finals.length;
+  $("statFinalSub").textContent = `ПК: ${pks.length} · ПП: ${pps.length}`;
+  $("statEnrollCount").textContent = enrs.length;
+  $("statEnrollSub").textContent = totalStudents + " " + plural(totalStudents, ["обучающийся","обучающихся","обучающихся"]);
+  $("statAttestCount").textContent = atts.length;
+  $("statAttestSub").textContent = passedCount + " " + plural(passedCount, ["слушатель прошёл","слушателя прошли","слушателей прошли"]);
+
+  renderMonthlyChart(invs, upds, finals);
+  renderTypesChart(invs, upds, enrs, atts, finals);
+}
+
+function renderMonthlyChart(invs, upds, finals){
+  const ctx = $("monthlyChart").getContext("2d");
+  if(monthlyChartInst) monthlyChartInst.destroy();
+
+  const months = [];
+  const now = new Date();
+  for(let i = 5; i >= 0; i--){
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({
+      key: `${d.getFullYear()}-${pad(d.getMonth()+1)}`,
+      label: ["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"][d.getMonth()] + " " + String(d.getFullYear()).slice(2)
+    });
+  }
+
+  const invSums = months.map(m => invs.filter(x => (x.dateAdded||"").startsWith(m.key)).reduce((s,x)=>s+(Number(x.amount)||0),0));
+  const updSums = months.map(m => upds.filter(x => (x.dateAdded||"").startsWith(m.key)).reduce((s,x)=>s+(Number(x.amount)||0),0));
+  const finalCounts = months.map(m => finals.filter(x => (x.dateAdded||"").startsWith(m.key)).length);
+
+  monthlyChartInst = new Chart(ctx, {
+    type:"bar",
+    data:{
+      labels: months.map(m => m.label),
+      datasets: [
+        { label:"Счета, ₽", data: invSums, backgroundColor:"rgba(212,163,75,0.75)", borderColor:"#d4a34b", borderWidth:1.5, borderRadius:8, borderSkipped:false, yAxisID:"y" },
+        { label:"УПД, ₽", data: updSums, backgroundColor:"rgba(96,165,250,0.65)", borderColor:"#60a5fa", borderWidth:1.5, borderRadius:8, borderSkipped:false, yAxisID:"y" },
+        { label:"Итоговых док., шт", data: finalCounts, type:"line", borderColor:"#22d3ee", backgroundColor:"rgba(34,211,238,0.15)", borderWidth:2.5, tension:0.35, pointRadius:4, pointBackgroundColor:"#22d3ee", pointBorderColor:"#1a1f26", pointBorderWidth:2, yAxisID:"y1", fill:true }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ labels:{ color:"#cbd8e6", font:{family:"Inter",size:11.5,weight:"600"}, boxWidth:12, boxHeight:12, padding:12 } },
+        tooltip:{
+          backgroundColor:"#1f2833", titleColor:"#f0f4fa", bodyColor:"#cbd8e6",
+          borderColor:"#3e4b5a", borderWidth:1, padding:12,
+          callbacks:{
+            label: c => {
+              if(c.dataset.yAxisID === "y1") return c.dataset.label + ": " + c.parsed.y + " шт";
+              return c.dataset.label + ": " + fmtMoney(c.parsed.y);
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ ticks:{ color:"#a8b9cc", font:{family:"Inter",size:11} }, grid:{ color:"rgba(255,255,255,0.04)" } },
+        y:{ beginAtZero:true, position:"left",
+            ticks:{ color:"#a8b9cc", font:{family:"Inter",size:11}, callback: v => v >= 1e6 ? (v/1e6).toFixed(1)+"M" : v >= 1e3 ? (v/1e3)+"K" : v },
+            grid:{ color:"rgba(255,255,255,0.04)" } },
+        y1:{ beginAtZero:true, position:"right",
+            ticks:{ color:"#22d3ee", font:{family:"Inter",size:11}, precision:0 },
+            grid:{ drawOnChartArea:false } }
+      }
+    }
+  });
+}
+
+function renderTypesChart(invs, upds, enrs, atts, finals){
+  const ctx = $("typesChart").getContext("2d");
+  if(typesChartInst) typesChartInst.destroy();
+
+  const data = [invs.length, upds.length, finals.length, enrs.length, atts.length];
+  const total = data.reduce((a,b)=>a+b,0);
+  const isEmpty = total === 0;
+
+  typesChartInst = new Chart(ctx, {
+    type:"doughnut",
+    data:{
+      labels: isEmpty ? ["Нет данных"] : ["Счета","УПД","Итоговые","Приказы","Протоколы"],
+      datasets:[{
+        data: isEmpty ? [1] : data,
+        backgroundColor: isEmpty
+          ? ["rgba(255,255,255,0.05)"]
+          : ["rgba(212,163,75,0.85)","rgba(96,165,250,0.85)","rgba(34,211,238,0.85)","rgba(74,222,128,0.85)","rgba(167,139,250,0.85)"],
+        borderColor:"#2b333e", borderWidth:3, hoverOffset:6
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:"62%",
+      plugins:{
+        legend:{ position:"bottom", labels:{ color:"#cbd8e6", font:{family:"Inter",size:11.5,weight:"600"}, boxWidth:12, boxHeight:12, padding:10 } },
+        tooltip:{
+          enabled:!isEmpty,
+          backgroundColor:"#1f2833", titleColor:"#f0f4fa", bodyColor:"#cbd8e6",
+          borderColor:"#3e4b5a", borderWidth:1, padding:12,
+          callbacks:{ label: c => {
+            const t = c.dataset.data.reduce((a,b)=>a+b,0);
+            const p = t ? Math.round(c.parsed/t*100) : 0;
+            return c.label + ": " + c.parsed + " (" + p + "%)";
+          } }
+        }
+      }
+    }
+  });
+}
+
+/* КАЛЬКУЛЯТОР */
+(function initCalc(){
+  const studentsInput = $("students"), blankCostInput = $("blankCost");
+  const shippingInput = $("shipping"), commissionInput = $("commission"), sdoTariffInput = $("sdoTariff");
+  const marginButtons = document.querySelectorAll(".margin-btn");
+  const selectedMarginDisplay = $("selectedMarginDisplay");
+  const blanksTotalEl = $("blanksTotal"), sdoTotalEl = $("sdoTotal");
+  const shippingTotalEl = $("shippingTotal"), commissionTotalEl = $("commissionTotal");
+  const costTotalEl = $("costTotal"), marginPercentLabel = $("marginPercentLabel");
+  const marginAmountEl = $("marginAmount"), subtotalEl = $("subtotal");
+  const taxAmountEl = $("taxAmount"), finalPriceEl = $("finalPrice");
+  let currentMargin = 50;
+  const formatRub = a => Math.round(a).toLocaleString("ru-RU") + " ₽";
+
+  function updateCalc(){
+    const students = parseFloat(studentsInput.value) || 0;
+    const blankCost = parseFloat(blankCostInput.value) || 0;
+    const shipping = parseFloat(shippingInput.value) || 0;
+    const commission = parseFloat(commissionInput.value) || 0;
+    const sdoTariff = parseFloat(sdoTariffInput.value) || 0;
+    const blanksTotal = students * blankCost;
+    const sdoTotal = students * sdoTariff;
+    const cost = blanksTotal + sdoTotal + shipping + commission;
+    const marginAmount = cost * (currentMargin / 100);
+    const subtotal = cost + marginAmount;
+    const tax = subtotal * 0.06;
+    const finalPrice = subtotal + tax;
+    blanksTotalEl.textContent = formatRub(blanksTotal);
+    sdoTotalEl.textContent = formatRub(sdoTotal);
+    shippingTotalEl.textContent = formatRub(shipping);
+    commissionTotalEl.textContent = formatRub(commission);
+    costTotalEl.textContent = formatRub(cost);
+    marginPercentLabel.textContent = currentMargin;
+    marginAmountEl.textContent = formatRub(marginAmount);
+    subtotalEl.textContent = formatRub(subtotal);
+    taxAmountEl.textContent = formatRub(tax);
+    finalPriceEl.textContent = formatRub(finalPrice);
+  }
+  [studentsInput,blankCostInput,shippingInput,commissionInput,sdoTariffInput].forEach(i => i.addEventListener("input", updateCalc));
+  marginButtons.forEach(btn => btn.addEventListener("click", function(){
+    marginButtons.forEach(b => b.classList.remove("active"));
+    this.classList.add("active");
+    currentMargin = parseFloat(this.dataset.margin);
+    selectedMarginDisplay.textContent = currentMargin + "%";
+    updateCalc();
+  }));
+  updateCalc();
+})();
+
+/* ДОКУМЕНТЫ */
+(function initDocs(){
+  const STORAGE_KEY = "accounting_docs_registry_v1";
+  const $id = id => document.getElementById(id);
+  const invPreview = $id("invPreview"), updPreview = $id("updPreview");
+  const updInvoice = $id("updInvoice"), updInfo = $id("updInfo");
+  const updInfoCustomer = $id("updInfoCustomer"), updInfoAmount = $id("updInfoAmount");
+  const invStatus = $id("invStatus"), updStatus = $id("updStatus");
+
+  function loadAll(){ try{ const r = JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]"); return Array.isArray(r)?r:[]; }catch(e){ return []; } }
+  function saveAll(l){ localStorage.setItem(STORAGE_KEY, JSON.stringify(l)); }
+  const loadInvoices = () => loadAll().filter(x => x.type === "INV");
+  const loadUpds = () => loadAll().filter(x => x.type === "UPD");
+
+  function nextInvoiceNumber(){
+    const list = loadInvoices();
+    const max = list.reduce((m,x) => Math.max(m, x.orderNum || 0), 0);
+    const next = max + 1;
+    const year = new Date().getFullYear();
+    return { orderNum: next, number: pad4(next) + "/ОБ-" + year, year };
+  }
+  function nextUpdNumber(){
+    const today = todayISO();
+    const n = loadUpds().filter(x => x.dateAdded === today).length;
+    const [y,m,d] = today.split("-");
+    const base = `${d}.${m}/${y}-ОБ`;
+    if(n === 0) return { number: base, dayIndex: 1 };
+    return { number: pad(n) + "-" + base, dayIndex: n + 1 };
+  }
+  function refreshPreviews(){
+    invPreview.textContent = `Счет на оплату ${nextInvoiceNumber().number} от ${fmtDMY(todayISO())} года`;
+    updPreview.textContent = nextUpdNumber().number;
+  }
+  function refreshInvoiceDropdown(){
+    const prev = updInvoice.value;
+    const invoices = loadInvoices().sort((a,b) => String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    const used = new Set(loadUpds().map(u => u.invoiceId));
+    if(!invoices.length){
+      updInvoice.innerHTML = `<option value="">— счёт ещё не создан —</option>`;
+      updInvoice.disabled = true; return;
+    }
+    updInvoice.disabled = false;
+    updInvoice.innerHTML = `<option value="">— выберите счёт —</option>` + invoices.map(inv => {
+      const u = used.has(inv.id);
+      const label = `${inv.number} · ${inv.customer||"—"} · ${fmtMoney(inv.amount)}` + (u ? "  (УПД уже сформирован)" : "");
+      return `<option value="${esc(inv.id)}">${esc(label)}</option>`;
+    }).join("");
+    if(prev && [...updInvoice.options].some(o => o.value === prev)) updInvoice.value = prev;
+    else updInvoice.value = "";
+    syncUpdInfo();
+  }
+  function syncUpdInfo(){
+    const id = updInvoice.value;
+    if(!id){ updInfo.classList.remove("show"); return; }
+    const inv = loadInvoices().find(x => x.id === id);
+    if(!inv){ updInfo.classList.remove("show"); return; }
+    updInfoCustomer.textContent = inv.customer || "—";
+    updInfoAmount.textContent = fmtMoney(inv.amount);
+    updInfo.classList.add("show");
+  }
+  updInvoice.addEventListener("change", syncUpdInfo);
+
+  function addInvoice(){
+    const cust = $id("invCustomer").value.trim();
+    const amountRaw = $id("invAmount").value.trim();
+    if(!cust){ showMini(invStatus, "Укажите заказчика", true); $id("invCustomer").focus(); return; }
+    const amount = Number(amountRaw.replace(",", "."));
+    if(!amountRaw || isNaN(amount) || amount <= 0){ showMini(invStatus, "Укажите корректную сумму", true); $id("invAmount").focus(); return; }
+    const today = todayISO(), n = nextInvoiceNumber();
+    const entry = {
+      id: "inv_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
+      type:"INV", orderNum:n.orderNum, number:n.number, year:n.year,
+      customer:cust, amount:Math.round(amount*100)/100,
+      dateAdded:today, date:fmtDMY(today), createdAt:new Date().toISOString()
+    };
+    const all = loadAll(); all.push(entry); saveAll(all);
+    $id("invCustomer").value = ""; $id("invAmount").value = ""; $id("invCustomer").focus();
+    showMini(invStatus, `✓ Счёт ${entry.number} от ${entry.date} добавлен`, false);
+    showToast("Счёт добавлен в реестр");
+    renderAll();
+  }
+  function addUpd(){
+    const invId = updInvoice.value;
+    if(!invId){ showMini(updStatus, "Выберите счёт-основание", true); return; }
+    const inv = loadInvoices().find(x => x.id === invId);
+    if(!inv){ showMini(updStatus, "Счёт не найден в реестре", true); return; }
+    const today = todayISO(), n = nextUpdNumber();
+    const entry = {
+      id: "upd_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
+      type:"UPD", number:n.number, dayIndex:n.dayIndex,
+      invoiceId:inv.id, invoiceNumber:inv.number,
+      customer:inv.customer, amount:inv.amount,
+      dateAdded:today, date:fmtDMY(today), createdAt:new Date().toISOString()
+    };
+    const all = loadAll(); all.push(entry); saveAll(all);
+    showMini(updStatus, `✓ УПД ${entry.number} сформирован на основании ${inv.number}`, false);
+    showToast("УПД добавлен в реестр");
+    renderAll();
+  }
+  function renderInvoices(){
+    const box = $id("invRegistry"), badge = $id("invCount");
+    const list = loadInvoices().sort((a,b) => String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    badge.textContent = list.length + " " + plural(list.length, ["документ","документа","документов"]);
+    if(!list.length){ box.innerHTML = `<div class="reg-empty">Счета ещё не созданы.</div>`; return; }
+    const rows = list.map((inv,i) => `
+      <tr>
+        <td class="num-cell">${i+1}</td>
+        <td><div class="num-cell-strong">${esc(inv.number)}</div><div class="sub-line">от ${esc(inv.date)}</div></td>
+        <td class="cust-cell"><div class="name">${esc(inv.customer)}</div><div class="sum">${esc(fmtMoney(inv.amount))}</div></td>
+        <td style="width:44px"><button type="button" class="del" data-id="${esc(inv.id)}" title="Удалить">×</button></td>
+      </tr>`).join("");
+    box.innerHTML = `<table class="reg-table"><thead><tr><th>№</th><th>Счёт</th><th>Заказчик / Сумма</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+    box.querySelectorAll("button.del[data-id]").forEach(b => {
+      b.addEventListener("click", () => {
+        const id = b.dataset.id;
+        const inv = loadInvoices().find(x => x.id === id);
+        if(!inv) return;
+        const linked = loadUpds().filter(u => u.invoiceId === id).length;
+        const warn = linked ? `\nВнимание: с этим счётом связано УПД (${linked}).` : "";
+        if(confirm(`Удалить счёт ${inv.number}?${warn}`)){
+          saveAll(loadAll().filter(x => x.id !== id));
+          renderAll(); showToast("Счёт удалён из реестра");
+        }
+      });
+    });
+  }
+  function renderUpds(){
+    const box = $id("updRegistry"), badge = $id("updCount");
+    const list = loadUpds().sort((a,b) => String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    badge.textContent = list.length + " " + plural(list.length, ["документ","документа","документов"]);
+    if(!list.length){ box.innerHTML = `<div class="reg-empty">УПД ещё не созданы.</div>`; return; }
+    const rows = list.map((u,i) => `
+      <tr>
+        <td class="num-cell">${i+1}</td>
+        <td><div class="num-cell-strong">${esc(u.number)}</div><div class="sub-line">от ${esc(u.date)}</div></td>
+        <td><div class="sub-line" style="margin:0;color:var(--muted-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-family:inherit;font-weight:700;">Основание</div><div class="num-cell-strong" style="font-size:12.5px;">${esc(u.invoiceNumber||"—")}</div></td>
+        <td class="cust-cell"><div class="name">${esc(u.customer||"—")}</div><div class="sum">${esc(fmtMoney(u.amount))}</div></td>
+        <td style="width:44px"><button type="button" class="del" data-id="${esc(u.id)}" title="Удалить">×</button></td>
+      </tr>`).join("");
+    box.innerHTML = `<table class="reg-table"><thead><tr><th>№</th><th>УПД</th><th>Основание</th><th>Заказчик / Сумма</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+    box.querySelectorAll("button.del[data-id]").forEach(b => {
+      b.addEventListener("click", () => {
+        const id = b.dataset.id;
+        const u = loadUpds().find(x => x.id === id);
+        if(!u) return;
+        if(confirm(`Удалить УПД ${u.number}?`)){
+          saveAll(loadAll().filter(x => x.id !== id));
+          renderAll(); showToast("УПД удалён из реестра");
+        }
+      });
+    });
+  }
+  function buildXml(invoices, upds, scopeLabel){
+    const xe = s => String(s ?? "").replace(/[<>&'"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;",'"':"&quot;"}[c]));
+    const orgBlock = `  <organization>
+    <name>${xe(ORG.name)}</name>
+    <inn>${xe(ORG.inn)}</inn>
+    <kpp>${xe(ORG.kpp)}</kpp>
+    <ogrn>${xe(ORG.ogrn)}</ogrn>
+    <address>${xe(ORG.address)}</address>
+    <email>${xe(ORG.email)}</email>
+    <phone>${xe(ORG.phone)}</phone>
+  </organization>`;
+    const invBlock = invoices.length
+      ? invoices.map(v => `    <invoice id="${xe(v.id)}">
+      <number>${xe(v.number)}</number>
+      <orderNumber>${v.orderNum}</orderNumber>
+      <year>${v.year}</year>
+      <customer>${xe(v.customer)}</customer>
+      <amount currency="RUB">${Number(v.amount).toFixed(2)}</amount>
+      <date>${xe(v.date)}</date>
+      <createdAt>${xe(v.createdAt)}</createdAt>
+    </invoice>`).join("\n")
+      : "    <!-- нет счетов -->";
+    const updBlock = upds.length
+      ? upds.map(u => `    <upd id="${xe(u.id)}">
+      <number>${xe(u.number)}</number>
+      <invoiceNumber>${xe(u.invoiceNumber||"")}</invoiceNumber>
+      <customer>${xe(u.customer||"")}</customer>
+      <amount currency="RUB">${Number(u.amount||0).toFixed(2)}</amount>
+      <date>${xe(u.date)}</date>
+      <createdAt>${xe(u.createdAt)}</createdAt>
+    </upd>`).join("\n")
+      : "    <!-- нет УПД -->";
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<accountingRegistry generated="${new Date().toISOString()}" scope="${xe(scopeLabel)}" invoices="${invoices.length}" upds="${upds.length}">
+${orgBlock}
+  <invoices>
+${invBlock}
+  </invoices>
+  <upds>
+${updBlock}
+  </upds>
+</accountingRegistry>`;
+  }
+  const sortByCreated = list => list.slice().sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+
+  function exportInvoices(){
+    const inv = sortByCreated(loadInvoices());
+    if(!inv.length){ showToast("Реестр счетов пуст"); return; }
+    downloadBlob(buildXml(inv,[],"Реестр счетов на оплату"), "application/xml;charset=utf-8", `Реестр_счетов_на_оплату_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("Счета выгружены в XML");
+  }
+  function exportUpds(){
+    const upds = sortByCreated(loadUpds());
+    if(!upds.length){ showToast("Реестр УПД пуст"); return; }
+    downloadBlob(buildXml([],upds,"Реестр УПД"), "application/xml;charset=utf-8", `Реестр_УПД_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("УПД выгружены в XML");
+  }
+  function exportAll(){
+    const all = loadAll();
+    if(!all.length){ showToast("Реестр пуст"); return; }
+    downloadBlob(buildXml(sortByCreated(loadInvoices()), sortByCreated(loadUpds()), "Общий реестр"), "application/xml;charset=utf-8", `Реестр_закрывающих_документов_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("Общий реестр выгружен в XML");
+  }
+  function renderAll(){ renderInvoices(); renderUpds(); refreshPreviews(); refreshInvoiceDropdown(); }
+
+  $id("invAdd").addEventListener("click", addInvoice);
+  $id("updAdd").addEventListener("click", addUpd);
+  $id("invCustomer").addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); addInvoice(); } });
+  $id("invAmount").addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); addInvoice(); } });
+  $id("invExportXml").addEventListener("click", exportInvoices);
+  $id("updExportXml").addEventListener("click", exportUpds);
+  $id("exportAllXml").addEventListener("click", exportAll);
+  $id("clearRegistry").addEventListener("click", () => {
+    if(!loadAll().length){ showToast("Реестр уже пуст"); return; }
+    if(confirm("Удалить все записи реестра (счета и УПД)? Действие необратимо.")){
+      localStorage.removeItem(STORAGE_KEY);
+      renderAll(); showToast("Реестр очищен");
+    }
+  });
+  renderAll();
+  document.querySelectorAll(".curYear").forEach(el => el.textContent = new Date().getFullYear());
+})();
+
+/* ИТОГОВЫЕ ДОКУМЕНТЫ */
+(function initFinalDocs(){
+  const STORAGE_KEY = "final_docs_registry_v1";
+  const TYPE_NAMES = { PK:"Удостоверение о повышении квалификации", PP:"Диплом о профессиональной переподготовке" };
+  const SERIES = { PK:"ПК", PP:"ПП" };
+  const $id = id => document.getElementById(id);
+
+  function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]"); }catch(e){ return []; } }
+  function save(l){ localStorage.setItem(STORAGE_KEY, JSON.stringify(l)); }
+
+  function maskSnils(v){
+    const d = String(v || "").replace(/\D/g, "").slice(0, 11);
+    if(d.length <= 3) return d;
+    if(d.length <= 6) return d.slice(0,3) + "-" + d.slice(3);
+    if(d.length <= 9) return d.slice(0,3) + "-" + d.slice(3,6) + "-" + d.slice(6);
+    return d.slice(0,3) + "-" + d.slice(3,6) + "-" + d.slice(6,9) + " " + d.slice(9);
+  }
+  function dateKeyDMY(iso){
+    if(!iso) return "";
+    const [y,m,d] = iso.split("-");
+    return `${d}${m}${y}`;
+  }
+
+  function nextNumbers(){
+    const list = load();
+    const today = todayISO();
+    const dk = dateKeyDMY(today);
+    const pkMax = list.filter(x => x.type === "PK").reduce((m, x) => Math.max(m, parseInt(x.serial,10) || 0), 0);
+    const ppMax = list.filter(x => x.type === "PP").reduce((m, x) => Math.max(m, parseInt(x.serial,10) || 0), 0);
+    const dailyMax = list.filter(x => x.dateAdded === today).reduce((m, x) => {
+      const tail = (x.regNumber || "").split("-")[1];
+      return Math.max(m, parseInt(tail,10) || 0);
+    }, 0);
+    const nextDaily = dailyMax + 1;
+    return {
+      PK: { order: pkMax + 1, serial: pad6(pkMax + 1), blank: SERIES.PK + " №" + pad6(pkMax + 1), reg: dk + "-" + nextDaily },
+      PP: { order: ppMax + 1, serial: pad6(ppMax + 1), blank: SERIES.PP + " №" + pad6(ppMax + 1), reg: dk + "-" + nextDaily }
+    };
+  }
+  function refreshCounters(){
+    const n = nextNumbers();
+    $id("pkOrder").textContent = n.PK.order;
+    $id("pkBlank").textContent = n.PK.blank;
+    $id("pkReg").textContent   = n.PK.reg;
+    $id("ppOrder").textContent = n.PP.order;
+    $id("ppBlank").textContent = n.PP.blank;
+    $id("ppReg").textContent   = n.PP.reg;
+  }
+
+  function addDocument(type){
+    const n = nextNumbers();
+    const data = type === "PK" ? n.PK : n.PP;
+    const fioEl = type === "PK" ? $id("pkFio") : $id("ppFio");
+    const snilsEl = type === "PK" ? $id("pkSnils") : $id("ppSnils");
+    const statusEl = type === "PK" ? $id("pkStatus") : $id("ppStatus");
+    const fio = fioEl.value.trim().replace(/\s+/g, " ");
+    const snils = snilsEl.value.trim();
+
+    if(!fio){ showMini(statusEl, "Укажите Ф.И.О. слушателя", true); fioEl.focus(); return; }
+    if(fio.split(" ").length < 2){ showMini(statusEl, "Ф.И.О. должно содержать минимум фамилию и имя", true); fioEl.focus(); return; }
+    const digits = snils.replace(/\D/g, "");
+    if(digits.length !== 11){ showMini(statusEl, "СНИЛС должен содержать 11 цифр", true); snilsEl.focus(); return; }
+
+    const entry = {
+      id: "doc_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
+      type, typeName: TYPE_NAMES[type], series: SERIES[type],
+      order: data.order, serial: data.serial, blank: data.blank, regNumber: data.reg,
+      fio, snils: maskSnils(snils),
+      dateAdded: todayISO(), date: fmtDMY(todayISO()),
+      createdAt: new Date().toISOString()
+    };
+    const list = load(); list.push(entry); save(list);
+    fioEl.value = ""; snilsEl.value = ""; fioEl.focus();
+    showMini(statusEl, "✓ Присвоено: " + entry.blank + " · рег. " + entry.regNumber, false);
+    showToast("Документ добавлен в реестр");
+    renderAll();
+  }
+
+  function renderAll(){ renderOne("PK"); renderOne("PP"); refreshCounters(); }
+
+  function renderOne(type){
+    const box = type === "PK" ? $id("pkRegistry") : $id("ppRegistry");
+    const badge = type === "PK" ? $id("pkCount") : $id("ppCount");
+    const list = load().filter(x => x.type === type)
+      .sort((a,b) => String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    badge.textContent = list.length + " " + plural(list.length, ["документ","документа","документов"]);
+    if(!list.length){
+      box.innerHTML = `<div class="reg-empty">Реестр пуст. Добавьте первый документ — запись появится здесь.</div>`;
+      return;
+    }
+    const rows = list.map((d,i) => `
+      <tr>
+        <td class="num-cell">${i+1}</td>
+        <td class="num-cell-strong">${esc(d.blank)}</td>
+        <td class="holder-cell"><div class="fio">${esc(d.fio)}</div><div class="snils">${esc(d.snils)}</div></td>
+        <td class="reg-cell"><div class="rnum">${esc(d.regNumber)}</div><div class="rdate">${esc(d.date)}</div></td>
+        <td style="width:44px"><button type="button" class="del" data-id="${esc(d.id)}" title="Удалить">×</button></td>
+      </tr>`).join("");
+    box.innerHTML = `<table class="reg-table"><thead><tr>
+      <th>№</th><th>Бланк</th><th>Ф.И.О. / СНИЛС</th><th>Рег. номер</th><th></th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+    box.querySelectorAll("button.del[data-id]").forEach(b => {
+      b.addEventListener("click", () => {
+        const id = b.dataset.id;
+        const item = load().find(x => x.id === id);
+        if(!item) return;
+        if(confirm(`Удалить из реестра запись «${item.blank}» (${item.fio})?`)){
+          save(load().filter(x => x.id !== id));
+          renderAll(); showToast("Запись удалена из реестра");
+        }
+      });
+    });
+  }
+
+  function buildXml(list, scopeLabel){
+    const xe = s => String(s ?? "").replace(/[<>&'"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;",'"':"&quot;"}[c]));
+    const orgBlock = `  <organization>
+    <name>${xe(ORG.name)}</name>
+    <inn>${xe(ORG.inn)}</inn><kpp>${xe(ORG.kpp)}</kpp><ogrn>${xe(ORG.ogrn)}</ogrn>
+    <address>${xe(ORG.address)}</address>
+    <email>${xe(ORG.email)}</email><phone>${xe(ORG.phone)}</phone>
+  </organization>`;
+    const docs = list.map(d => `    <document id="${xe(d.id)}" type="${xe(d.type)}">
+      <typeName>${xe(d.typeName)}</typeName>
+      <orderNumber>${d.order}</orderNumber>
+      <blank>
+        <series>${xe(d.series)}</series>
+        <number>${xe(d.serial)}</number>
+        <formatted>${xe(d.blank)}</formatted>
+      </blank>
+      <registrationNumber>${xe(d.regNumber)}</registrationNumber>
+      <holder>
+        <fio>${xe(d.fio)}</fio>
+        <snils>${xe(d.snils)}</snils>
+      </holder>
+      <issueDate>${xe(d.date)}</issueDate>
+      <createdAt>${xe(d.createdAt)}</createdAt>
+    </document>`).join("\n");
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<documentRegistry generated="${new Date().toISOString()}" count="${list.length}" scope="${xe(scopeLabel)}">
+${orgBlock}
+  <documents>
+${docs}
+  </documents>
+</documentRegistry>`;
+  }
+
+  function exportByType(type){
+    const list = load().filter(x => x.type === type)
+      .sort((a,b) => String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    if(!list.length){ showToast("Реестр " + SERIES[type] + " пуст"); return; }
+    const xml = buildXml(list, TYPE_NAMES[type]);
+    const prefix = type === "PK" ? "Реестр_удостоверений_ПК" : "Реестр_дипломов_ПП";
+    downloadBlob(xml, "application/xml;charset=utf-8", `${prefix}_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("Реестр " + SERIES[type] + " выгружен в XML");
+  }
+  function exportAll(){
+    const list = load().sort((a,b) => String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+    if(!list.length){ showToast("Реестр пуст"); return; }
+    const xml = buildXml(list, "Общий реестр итоговых документов");
+    downloadBlob(xml, "application/xml;charset=utf-8", `Реестр_итоговых_документов_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("Общий реестр выгружен в XML");
+  }
+
+  $id("pkAdd").addEventListener("click", () => addDocument("PK"));
+  $id("ppAdd").addEventListener("click", () => addDocument("PP"));
+  ["pkFio","pkSnils"].forEach(id => $id(id).addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); addDocument("PK"); } }));
+  ["ppFio","ppSnils"].forEach(id => $id(id).addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); addDocument("PP"); } }));
+  ["pkSnils","ppSnils"].forEach(id => {
+    $id(id).addEventListener("input", e => {
+      const cursorEnd = e.target.selectionStart === e.target.value.length;
+      e.target.value = maskSnils(e.target.value);
+      if(cursorEnd) e.target.setSelectionRange(e.target.value.length, e.target.value.length);
+    });
+  });
+  $id("pkExportXml").addEventListener("click", () => exportByType("PK"));
+  $id("ppExportXml").addEventListener("click", () => exportByType("PP"));
+  $id("finalExportAllXml").addEventListener("click", exportAll);
+  $id("finalClearRegistry").addEventListener("click", () => {
+    if(!load().length){ showToast("Реестр уже пуст"); return; }
+    if(confirm("Удалить все записи реестра итоговых документов? Действие необратимо.")){
+      localStorage.removeItem(STORAGE_KEY);
+      renderAll(); showToast("Реестр очищен");
+    }
+  });
+  renderAll();
+})();
+
+/* АТТЕСТАЦИЯ */
+(function initAttest(){
+  const STORAGE_KEY = "attestation_registry_v1";
+  const GRADE_OPTIONS = ["отлично","хорошо","удовлетворительно","зачётно"];
+  const tbody = $("a_rows"), statusEl = $("a_status");
+  const regBox = $("a_registryBox"), regCount = $("a_regCount");
+
+  function addRow(data = {}){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="num"></td>
+      <td><input type="text" class="p-name" placeholder="Фамилия Имя Отчество" value="${esc(data.name||"")}"></td>
+      <td class="c">
+        <select class="p-grade">
+          <option value="">— выберите —</option>
+          ${GRADE_OPTIONS.map(g => `<option value="${g}"${data.grade===g?" selected":""}>${g}</option>`).join("")}
+        </select>
+      </td>
+      <td><button type="button" class="del" title="Удалить строку">×</button></td>`;
+    tr.querySelector(".del").addEventListener("click", () => { tr.remove(); renumber(); });
+    tbody.appendChild(tr); renumber();
+  }
+  function renumber(){ [...tbody.querySelectorAll("tr")].forEach((tr,i) => tr.querySelector(".num").textContent = i+1); }
+  $("a_addRow").addEventListener("click", () => addRow());
+
+  function collect(){
+    const participants = [...tbody.querySelectorAll("tr")]
+      .map(tr => ({ name: tr.querySelector(".p-name").value.trim(), grade: tr.querySelector(".p-grade").value }))
+      .filter(p => p.name);
+    return {
+      number: $("a_docNum").value.trim() || "1",
+      dateISO: $("a_docDate").value, date: fmtDMY($("a_docDate").value),
+      place: $("a_place").value.trim() || "г. Тула",
+      program: $("a_program").value.trim(), hours: $("a_hours").value.trim(),
+      chairman: $("a_chairman").value.trim(), secretary: $("a_secretary").value.trim(),
+      director: $("a_director").value.trim(), participants
+    };
+  }
+
+  function buildDocx(d){
+    const { Document, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, VerticalAlign, TableLayoutType } = docx;
+    const FONT = "Times New Roman";
+    const P = (text, o={}) => new Paragraph({
+      alignment: o.align,
+      spacing: { after: o.after === undefined ? 100 : o.after, line: o.line || 276 },
+      children: [new TextRun({ text, font: FONT, size: o.size || 24, bold: !!o.bold, italics: !!o.italics })]
+    });
+    const orgHeader = [
+      P(ORG.name, { align: AlignmentType.CENTER, bold: true, size: 20, after: 40 }),
+      P(ORG.requisites, { align: AlignmentType.CENTER, bold: true, size: 18, after: 40 }),
+      P("Юридический адрес: " + ORG.address, { align: AlignmentType.CENTER, bold: true, size: 18, after: 40 }),
+      P(ORG.contacts, { align: AlignmentType.CENTER, bold: true, size: 18, after: 220 })
+    ];
+    const nb = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+    const noBorders = { top:nb, bottom:nb, left:nb, right:nb };
+    const headerTable = new Table({
+      width: { size: 9071, type: WidthType.DXA }, layout: TableLayoutType.FIXED,
+      columnWidths: [4535, 4536], borders: noBorders,
+      rows: [ new TableRow({ children: [
+        new TableCell({ borders: noBorders, width: { size: 4535, type: WidthType.DXA }, children: [P(d.place,{after:0})] }),
+        new TableCell({ borders: noBorders, width: { size: 4536, type: WidthType.DXA }, children: [P(longDateRU(d.dateISO),{after:0,align:AlignmentType.RIGHT})] })
+      ]}) ]
+    });
+    const COL_NUM=700, COL_NAME=5871, COL_GRADE=2500;
+    const COL_WIDTHS = [COL_NUM, COL_NAME, COL_GRADE];
+    const cb = {
+      top:{style:BorderStyle.SINGLE,size:4,color:"000000"}, bottom:{style:BorderStyle.SINGLE,size:4,color:"000000"},
+      left:{style:BorderStyle.SINGLE,size:4,color:"000000"}, right:{style:BorderStyle.SINGLE,size:4,color:"000000"}
+    };
+    const mkCell = (text, width, opts={}) => new TableCell({
+      borders: cb, verticalAlign: VerticalAlign.CENTER,
+      width: { size: width, type: WidthType.DXA },
+      margins: { top:80, bottom:80, left:100, right:100 },
+      children: [new Paragraph({
+        alignment: opts.align || AlignmentType.LEFT,
+        spacing: { after:0, line:264 },
+        children: [new TextRun({ text, font: FONT, size: opts.size || 22, bold: !!opts.bold })]
+      })]
+    });
+    const headRow = new TableRow({ tableHeader:true, children: [
+      mkCell("№ п/п", COL_WIDTHS[0], {align:AlignmentType.CENTER,bold:true}),
+      mkCell("Ф.И.О обучающегося (слушателя)", COL_WIDTHS[1], {align:AlignmentType.CENTER,bold:true}),
+      mkCell("Полученная оценка", COL_WIDTHS[2], {align:AlignmentType.CENTER,bold:true})
+    ]});
+    const rows = d.participants.length
+      ? d.participants.map((p,i) => new TableRow({ children: [
+          mkCell(String(i+1), COL_WIDTHS[0], {align:AlignmentType.CENTER}),
+          mkCell(p.name, COL_WIDTHS[1]),
+          mkCell(p.grade || "—", COL_WIDTHS[2], {align:AlignmentType.CENTER})
+        ]}))
+      : [ new TableRow({ children: [
+          mkCell("—", COL_WIDTHS[0], {align:AlignmentType.CENTER}),
+          mkCell("—", COL_WIDTHS[1]),
+          mkCell("—", COL_WIDTHS[2], {align:AlignmentType.CENTER})
+        ]}) ];
+    const resultsTable = new Table({
+      width: { size: 9071, type: WidthType.DXA }, layout: TableLayoutType.FIXED,
+      columnWidths: COL_WIDTHS, rows: [headRow, ...rows]
+    });
+    const passed = d.participants.length;
+    const body = [];
+    body.push(...orgHeader);
+    body.push(P("ПРОТОКОЛ № " + d.number, { align:AlignmentType.CENTER, bold:true, size:32, after:40 }));
+    body.push(P("заседания аттестационной комиссии", { align:AlignmentType.CENTER, italics:true, size:24, after:260 }));
+    body.push(headerTable);
+    body.push(P("", {after:200}));
+    body.push(P("Повестка дня:", {bold:true, after:80}));
+    body.push(P(`Проведение итоговой аттестации обучающихся (слушателей) по программе профессиональной переподготовки «${d.program || "—"}»` + (d.hours ? ` в объёме ${d.hours} часов.` : "."), {align:AlignmentType.JUSTIFIED, after:260}));
+    body.push(P("Результаты аттестации:", {bold:true, after:100}));
+    body.push(resultsTable);
+    body.push(P("", {after:220}));
+    body.push(P("Решение комиссии:", {bold:true, after:80}));
+    body.push(P("Выдать диплом о профессиональной переподготовке.", {align:AlignmentType.JUSTIFIED, after:220}));
+    body.push(P("Общие итоги:", {bold:true, after:80}));
+    body.push(P(`Итоговую аттестацию прошли ${passed} слушател${passed % 10 === 1 && passed % 100 !== 11 ? "ь" : (passed % 10 >= 2 && passed % 10 <= 4 && (passed % 100 < 10 || passed % 100 >= 20) ? "я" : "ей")}.`, {align:AlignmentType.JUSTIFIED, after:320}));
+    const sigLine = (role, name) => new Paragraph({
+      spacing: { after:200, line:300 },
+      children: [
+        new TextRun({ text: role + ":  ", font:FONT, size:24, bold:true }),
+        new TextRun({ text: "_________________", font:FONT, size:24 }),
+        new TextRun({ text: "    " + (name || "___________________"), font:FONT, size:24 })
+      ]
+    });
+    body.push(P("Подписи членов комиссии:", {bold:true, after:160}));
+    body.push(sigLine("Председатель комиссии", d.chairman));
+    body.push(sigLine("Секретарь комиссии", d.secretary));
+    body.push(sigLine("Директор", d.director));
+    return new Document({
+      creator: ORG.name, title: "Протокол итоговой аттестации №" + d.number,
+      styles: { default: { document: { run: { font:FONT, size:24 } } } },
+      sections: [{ properties: { page: { margin: { top:1134, bottom:1134, left:1701, right:1134 } } }, children: body }]
+    });
+  }
+
+  const loadReg = () => { try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]"); }catch(e){ return []; } };
+  const saveReg = l => localStorage.setItem(STORAGE_KEY, JSON.stringify(l));
+  function addToReg(entry){
+    const list = loadReg();
+    const i = list.findIndex(x => String(x.number) === String(entry.number));
+    if(i >= 0) list[i] = entry; else list.push(entry);
+    list.sort((a,b) => Number(a.number) - Number(b.number));
+    saveReg(list); renderReg();
+  }
+  function delFromReg(num){ saveReg(loadReg().filter(x => String(x.number) !== String(num))); renderReg(); }
+  function renderReg(){
+    const list = loadReg();
+    regCount.textContent = list.length + " " + plural(list.length, ["протокол","протокола","протоколов"]);
+    if(!list.length){
+      regBox.innerHTML = `<div class="reg-empty">Реестр пуст. Сформируйте первый протокол — он появится здесь автоматически.</div>`;
+      return;
+    }
+    const html = list.map(p => `
+      <tr>
+        <td><b style="color:var(--gold)">№ ${esc(p.number)}</b></td>
+        <td>${esc(p.date||"—")}</td>
+        <td>${esc(p.program||"—")}${p.hours ? `<div style="color:var(--muted-2);font-size:12px">${esc(p.hours)} ч.</div>` : ""}</td>
+        <td>${p.participants.length}</td>
+        <td><span style="color:var(--green);font-weight:700;font-size:11.5px;background:var(--green-soft);padding:3px 9px;border-radius:6px;">${p.passedCount} прошли</span></td>
+        <td style="text-align:right;width:52px"><button type="button" class="del" data-num="${esc(p.number)}" title="Удалить">×</button></td>
+      </tr>`).join("");
+    regBox.innerHTML = `<table class="reg-table"><thead><tr>
+      <th style="width:90px">№</th><th style="width:120px">Дата</th><th>Программа</th>
+      <th style="width:80px">Слуш.</th><th style="width:140px">Итог</th><th></th>
+    </tr></thead><tbody>${html}</tbody></table>`;
+    regBox.querySelectorAll("button.del[data-num]").forEach(b => {
+      b.addEventListener("click", () => {
+        if(confirm("Удалить протокол №" + b.dataset.num + " из реестра?")){
+          delFromReg(b.dataset.num); showToast("Протокол удалён из реестра");
+        }
+      });
+    });
+  }
+
+  function exportXml(){
+    const list = loadReg();
+    if(!list.length){ statusEl.className = "status err"; statusEl.textContent = "Реестр пуст — нечего выгружать."; return; }
+    const xmlEsc = s => String(s ?? "").replace(/[<>&'"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;",'"':"&quot;"}[c]));
+    const orgBlock = `  <organization>
+    <name>${xmlEsc(ORG.name)}</name>
+    <inn>7106086032</inn><kpp>710601001</kpp><ogrn>1197154009304</ogrn>
+    <address>${xmlEsc(ORG.address)}</address>
+    <email>rptula@mail.ru</email><phone>+7 (920) 790-33-19</phone>
+  </organization>`;
+    const parts = list.map(p => {
+      const participants = p.participants.map(x => `
+      <participant>
+        <name>${xmlEsc(x.name)}</name>
+        <grade>${xmlEsc(x.grade || "")}</grade>
+      </participant>`).join("");
+      return `  <protocol id="${xmlEsc(p.number)}">
+    <number>${xmlEsc(p.number)}</number>
+    <date>${xmlEsc(p.date)}</date>
+    <place>${xmlEsc(p.place)}</place>
+    <program><name>${xmlEsc(p.program)}</name><hours>${xmlEsc(p.hours)}</hours></program>
+    <commission>
+      <chairman>${xmlEsc(p.chairman)}</chairman>
+      <secretary>${xmlEsc(p.secretary)}</secretary>
+      <director>${xmlEsc(p.director)}</director>
+    </commission>
+    <participants>${participants}
+    </participants>
+    <passedCount>${p.passedCount}</passedCount>
+    <createdAt>${xmlEsc(p.createdAt)}</createdAt>
+  </protocol>`;
+    }).join("\n");
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<registry generated="${new Date().toISOString()}" count="${list.length}">
+${orgBlock}
+${parts}
+</registry>`;
+    downloadBlob(xml, "application/xml;charset=utf-8", `Реестр_протоколов_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("Реестр выгружен в XML");
+    statusEl.className = "status ok";
+    statusEl.textContent = `✅ Реестр (${list.length} протоколов) выгружен в XML.`;
+  }
+
+  $("a_generate").addEventListener("click", async function(){
+    const d = collect();
+    if(!d.program){ statusEl.className = "status err"; statusEl.textContent = "Укажите название программы."; $("a_program").focus(); return; }
+    if(!d.participants.length){ statusEl.className = "status err"; statusEl.textContent = "Добавьте хотя бы одного обучающегося."; return; }
+    if(typeof docx === "undefined"){ statusEl.className = "status err"; statusEl.textContent = "Библиотека docx не загрузилась."; return; }
+    this.disabled = true; const old = this.innerHTML; this.innerHTML = "⏳ Формирование…";
+    try{
+      const doc = buildDocx(d);
+      const blob = await docx.Packer.toBlob(doc);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `Протокол_№${d.number}_от_${d.date.replace(/\./g,"-")}.docx`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      addToReg({
+        number:d.number, date:d.date, place:d.place,
+        program:d.program, hours:d.hours,
+        chairman:d.chairman, secretary:d.secretary, director:d.director,
+        participants:d.participants, passedCount:d.participants.length,
+        createdAt:new Date().toISOString()
+      });
+      $("a_docNum").value = String(Number(d.number) + 1);
+      statusEl.className = "status ok";
+      statusEl.textContent = `✅ Протокол №${d.number} сформирован и добавлен в реестр.`;
+      showToast("Протокол сохранён в реестр");
+    }catch(e){
+      console.error(e);
+      statusEl.className = "status err";
+      statusEl.textContent = "Ошибка формирования: " + e.message;
+    }finally{
+      this.disabled = false; this.innerHTML = old;
+    }
+  });
+  $("a_exportXml").addEventListener("click", exportXml);
+  $("a_clearRegistry").addEventListener("click", () => {
+    if(!loadReg().length){ statusEl.className = "status info"; statusEl.textContent = "Реестр уже пуст."; return; }
+    if(confirm("Удалить все записи реестра? Действие необратимо.")){
+      localStorage.removeItem(STORAGE_KEY);
+      renderReg();
+      statusEl.className = "status info";
+      statusEl.textContent = "Реестр очищен.";
+      showToast("Реестр очищен");
+    }
+  });
+  (function init(){
+    $("a_docDate").value = todayISO();
+    const list = loadReg();
+    if(list.length){
+      const max = Math.max(...list.map(x => Number(x.number) || 0));
+      $("a_docNum").value = String(max + 1);
+    }
+    for(let i=0;i<3;i++) addRow();
+    renderReg();
+  })();
+})();
+
+/* ПРИКАЗЫ О ЗАЧИСЛЕНИИ */
+(function initEnroll(){
+  const STORAGE_KEY = "enrollment_registry_v1";
+  const tbody = $("e_rows"), statusEl = $("e_status");
+  const regBox = $("e_registryBox"), regCount = $("e_regCount");
+
+  function addRow(data = {}){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="num"></td>
+      <td><input type="text" class="p-name" placeholder="Фамилия Имя Отчество" value="${esc(data.name||"")}"></td>
+      <td class="c col-birth"><input type="text" class="p-birth" placeholder="дд.мм.гггг" value="${esc(data.birth||"")}"></td>
+      <td><button type="button" class="del" title="Удалить строку">×</button></td>`;
+    tr.querySelector(".del").addEventListener("click", () => { tr.remove(); renumber(); });
+    tbody.appendChild(tr); renumber();
+  }
+  function renumber(){ [...tbody.querySelectorAll("tr")].forEach((tr,i) => tr.querySelector(".num").textContent = i+1); }
+  $("e_addRow").addEventListener("click", () => addRow());
+
+  function collect(){
+    const participants = [...tbody.querySelectorAll("tr")]
+      .map(tr => ({ name: tr.querySelector(".p-name").value.trim(), birth: tr.querySelector(".p-birth").value.trim() }))
+      .filter(p => p.name);
+    return {
+      number: $("e_docNum").value.trim() || "1",
+      dateISO: $("e_docDate").value, date: fmtDMY($("e_docDate").value),
+      place: $("e_place").value.trim() || "г. Тула",
+      dateFromISO: $("e_dateFrom").value, dateToISO: $("e_dateTo").value,
+      dateFrom: fmtDMY($("e_dateFrom").value), dateTo: fmtDMY($("e_dateTo").value),
+      program: $("e_program").value.trim(), hours: $("e_hours").value.trim(),
+      signRole: $("e_signRole").value.trim() || "Директор",
+      signName: $("e_signName").value.trim(),
+      participants
+    };
+  }
+
+  function buildDocx(d){
+    const { Document, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, VerticalAlign, TableLayoutType } = docx;
+    const FONT = "Times New Roman";
+    const P = (text, o={}) => new Paragraph({
+      alignment: o.align,
+      spacing: { after: o.after === undefined ? 100 : o.after, line: o.line || 276 },
+      children: [new TextRun({ text, font: FONT, size: o.size || 24, bold: !!o.bold, italics: !!o.italics })]
+    });
+    const orgHeader = [
+      P(ORG.name, { align: AlignmentType.CENTER, bold: true, size: 20, after: 40 }),
+      P(ORG.requisites, { align: AlignmentType.CENTER, bold: true, size: 18, after: 40 }),
+      P("Юридический адрес: " + ORG.address, { align: AlignmentType.CENTER, bold: true, size: 18, after: 40 }),
+      P(ORG.contacts, { align: AlignmentType.CENTER, bold: true, size: 18, after: 220 })
+    ];
+    const nb = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+    const noBorders = { top:nb, bottom:nb, left:nb, right:nb };
+    const headerTable = new Table({
+      width: { size: 9071, type: WidthType.DXA }, layout: TableLayoutType.FIXED,
+      columnWidths: [4535, 4536], borders: noBorders,
+      rows: [ new TableRow({ children: [
+        new TableCell({ borders: noBorders, width: { size: 4535, type: WidthType.DXA }, children: [P(d.place,{after:0})] }),
+        new TableCell({ borders: noBorders, width: { size: 4536, type: WidthType.DXA }, children: [P(longDateRU(d.dateISO),{after:0,align:AlignmentType.RIGHT})] })
+      ]}) ]
+    });
+    const COL_NUM=700, COL_NAME=6071, COL_BIRTH=2300;
+    const COL_WIDTHS = [COL_NUM, COL_NAME, COL_BIRTH];
+    const cb = {
+      top:{style:BorderStyle.SINGLE,size:4,color:"000000"}, bottom:{style:BorderStyle.SINGLE,size:4,color:"000000"},
+      left:{style:BorderStyle.SINGLE,size:4,color:"000000"}, right:{style:BorderStyle.SINGLE,size:4,color:"000000"}
+    };
+    const mkCell = (text, width, opts={}) => new TableCell({
+      borders: cb, verticalAlign: VerticalAlign.CENTER,
+      width: { size: width, type: WidthType.DXA },
+      margins: { top:80, bottom:80, left:100, right:100 },
+      children: [new Paragraph({
+        alignment: opts.align || AlignmentType.LEFT,
+        spacing: { after:0, line:264 },
+        children: [new TextRun({ text, font: FONT, size: opts.size || 22, bold: !!opts.bold })]
+      })]
+    });
+    const headRow = new TableRow({ tableHeader:true, children: [
+      mkCell("№ п/п", COL_WIDTHS[0], {align:AlignmentType.CENTER,bold:true}),
+      mkCell("Ф.И.О обучающегося (слушателя)", COL_WIDTHS[1], {align:AlignmentType.CENTER,bold:true}),
+      mkCell("Дата рождения", COL_WIDTHS[2], {align:AlignmentType.CENTER,bold:true})
+    ]});
+    const rows = d.participants.length
+      ? d.participants.map((p,i) => new TableRow({ children: [
+          mkCell(String(i+1), COL_WIDTHS[0], {align:AlignmentType.CENTER}),
+          mkCell(p.name, COL_WIDTHS[1]),
+          mkCell(p.birth || "—", COL_WIDTHS[2], {align:AlignmentType.CENTER})
+        ]}))
+      : [ new TableRow({ children: [
+          mkCell("—", COL_WIDTHS[0], {align:AlignmentType.CENTER}),
+          mkCell("—", COL_WIDTHS[1]),
+          mkCell("—", COL_WIDTHS[2], {align:AlignmentType.CENTER})
+        ]}) ];
+    const studentsTable = new Table({
+      width: { size: 9071, type: WidthType.DXA }, layout: TableLayoutType.FIXED,
+      columnWidths: COL_WIDTHS, rows: [headRow, ...rows]
+    });
+    const body = [];
+    body.push(...orgHeader);
+    body.push(P("ПРИКАЗ № " + d.number, { align:AlignmentType.CENTER, bold:true, size:32, after:40 }));
+    body.push(P("О зачислении обучающихся (слушателей)", { align:AlignmentType.CENTER, italics:true, size:24, after:260 }));
+    body.push(headerTable);
+    body.push(P("", {after:200}));
+    const period = (d.dateFromISO || d.dateToISO)
+      ? `с ${d.dateFrom || "дд.мм.гггг"} по ${d.dateTo || "дд.мм.гггг"}`
+      : "с дд.мм.гггг по дд.мм.гггг";
+    body.push(P(
+      `Зачислить ${period} в учебный центр общества с ограниченной ответственностью «Родные просторы» ` +
+      `для обучения по программе «${d.program || "—"}»` +
+      (d.hours ? ` в объёме ${d.hours} часов` : "") + `, лиц, согласно списку:`,
+      { align: AlignmentType.JUSTIFIED, after: 260 }
+    ));
+    body.push(P("Обучающиеся (слушатели):", { bold: true, after: 120 }));
+    body.push(studentsTable);
+    body.push(P("", { after: 260 }));
+    body.push(P("Подпись руководителя учебного центра ООО «Родные просторы»:", { bold:true, after:200 }));
+    body.push(new Paragraph({
+      spacing: { after:200, line:300 },
+      children: [
+        new TextRun({ text: d.signRole + ":  ", font:FONT, size:24, bold:true }),
+        new TextRun({ text: "_________________", font:FONT, size:24 }),
+        new TextRun({ text: "    " + (d.signName || "___________________"), font:FONT, size:24 })
+      ]
+    }));
+    return new Document({
+      creator: ORG.name, title: "Приказ о зачислении №" + d.number,
+      styles: { default: { document: { run: { font:FONT, size:24 } } } },
+      sections: [{ properties: { page: { margin: { top:1134, bottom:1134, left:1701, right:1134 } } }, children: body }]
+    });
+  }
+
+  const loadReg = () => { try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]"); }catch(e){ return []; } };
+  const saveReg = l => localStorage.setItem(STORAGE_KEY, JSON.stringify(l));
+  function addToReg(entry){
+    const list = loadReg();
+    const i = list.findIndex(x => String(x.number) === String(entry.number));
+    if(i >= 0) list[i] = entry; else list.push(entry);
+    list.sort((a,b) => Number(a.number) - Number(b.number));
+    saveReg(list); renderReg();
+  }
+  function delFromReg(num){ saveReg(loadReg().filter(x => String(x.number) !== String(num))); renderReg(); }
+  function renderReg(){
+    const list = loadReg();
+    regCount.textContent = list.length + " " + plural(list.length, ["приказ","приказа","приказов"]);
+    if(!list.length){
+      regBox.innerHTML = `<div class="reg-empty">Реестр пуст. Сформируйте первый приказ — он появится здесь автоматически.</div>`;
+      return;
+    }
+    const html = list.map(p => `
+      <tr>
+        <td><b style="color:var(--gold)">№ ${esc(p.number)}</b></td>
+        <td>${esc(p.date||"—")}</td>
+        <td>${esc(p.program||"—")}${p.hours ? `<div style="color:var(--muted-2);font-size:12px">${esc(p.hours)} ч.</div>` : ""}</td>
+        <td>${p.participants.length}</td>
+        <td><span style="color:var(--green);font-weight:700;font-size:11.5px;background:var(--green-soft);padding:3px 9px;border-radius:6px;">зачислено</span></td>
+        <td style="text-align:right;width:52px"><button type="button" class="del" data-num="${esc(p.number)}" title="Удалить">×</button></td>
+      </tr>`).join("");
+    regBox.innerHTML = `<table class="reg-table"><thead><tr>
+      <th style="width:90px">№</th><th style="width:120px">Дата</th><th>Программа</th>
+      <th style="width:100px">Зачислено</th><th style="width:130px">Статус</th><th></th>
+    </tr></thead><tbody>${html}</tbody></table>`;
+    regBox.querySelectorAll("button.del[data-num]").forEach(b => {
+      b.addEventListener("click", () => {
+        if(confirm("Удалить приказ №" + b.dataset.num + " из реестра?")){
+          delFromReg(b.dataset.num); showToast("Приказ удалён из реестра");
+        }
+      });
+    });
+  }
+
+  function exportXml(){
+    const list = loadReg();
+    if(!list.length){ statusEl.className = "status err"; statusEl.textContent = "Реестр пуст — нечего выгружать."; return; }
+    const xmlEsc = s => String(s ?? "").replace(/[<>&'"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;",'"':"&quot;"}[c]));
+    const orgBlock = `  <organization>
+    <name>${xmlEsc(ORG.name)}</name>
+    <inn>7106086032</inn><kpp>710601001</kpp><ogrn>1197154009304</ogrn>
+    <address>${xmlEsc(ORG.address)}</address>
+    <email>rptula@mail.ru</email><phone>+7 (920) 790-33-19</phone>
+  </organization>`;
+    const parts = list.map(p => {
+      const participants = p.participants.map(x => `
+      <student>
+        <name>${xmlEsc(x.name)}</name>
+        <birthDate>${xmlEsc(x.birth || "")}</birthDate>
+      </student>`).join("");
+      return `  <order id="${xmlEsc(p.number)}">
+    <number>${xmlEsc(p.number)}</number>
+    <date>${xmlEsc(p.date)}</date>
+    <place>${xmlEsc(p.place)}</place>
+    <period><from>${xmlEsc(p.dateFrom)}</from><to>${xmlEsc(p.dateTo)}</to></period>
+    <program><name>${xmlEsc(p.program)}</name><hours>${xmlEsc(p.hours)}</hours></program>
+    <signatory><role>${xmlEsc(p.signRole)}</role><name>${xmlEsc(p.signName)}</name></signatory>
+    <students>${participants}
+    </students>
+    <createdAt>${xmlEsc(p.createdAt)}</createdAt>
+  </order>`;
+    }).join("\n");
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<enrollmentRegistry generated="${new Date().toISOString()}" count="${list.length}">
+${orgBlock}
+${parts}
+</enrollmentRegistry>`;
+    downloadBlob(xml, "application/xml;charset=utf-8", `Реестр_приказов_о_зачислении_${fmtDMY(todayISO()).replace(/\./g,"-")}.xml`);
+    showToast("Реестр выгружен в XML");
+    statusEl.className = "status ok";
+    statusEl.textContent = `✅ Реестр (${list.length} приказов) выгружен в XML.`;
+  }
+
+  $("e_generate").addEventListener("click", async function(){
+    const d = collect();
+    if(!d.program){ statusEl.className = "status err"; statusEl.textContent = "Укажите название программы обучения."; $("e_program").focus(); return; }
+    if(!d.participants.length){ statusEl.className = "status err"; statusEl.textContent = "Добавьте хотя бы одного обучающегося."; return; }
+    if(typeof docx === "undefined"){ statusEl.className = "status err"; statusEl.textContent = "Библиотека docx не загрузилась."; return; }
+    this.disabled = true; const old = this.innerHTML; this.innerHTML = "⏳ Формирование…";
+    try{
+      const doc = buildDocx(d);
+      const blob = await docx.Packer.toBlob(doc);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `Приказ_№${d.number}_о_зачислении_от_${d.date.replace(/\./g,"-")}.docx`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      addToReg({
+        number:d.number, date:d.date, place:d.place,
+        dateFrom:d.dateFrom, dateTo:d.dateTo,
+        program:d.program, hours:d.hours,
+        signRole:d.signRole, signName:d.signName,
+        participants:d.participants,
+        createdAt:new Date().toISOString()
+      });
+      $("e_docNum").value = String(Number(d.number) + 1);
+      statusEl.className = "status ok";
+      statusEl.textContent = `✅ Приказ №${d.number} сформирован и добавлен в реестр.`;
+      showToast("Приказ сохранён в реестр");
+    }catch(e){
+      console.error(e);
+      statusEl.className = "status err";
+      statusEl.textContent = "Ошибка формирования: " + e.message;
+    }finally{
+      this.disabled = false; this.innerHTML = old;
+    }
+  });
+  $("e_exportXml").addEventListener("click", exportXml);
+  $("e_clearRegistry").addEventListener("click", () => {
+    if(!loadReg().length){ statusEl.className = "status info"; statusEl.textContent = "Реестр уже пуст."; return; }
+    if(confirm("Удалить все записи реестра? Действие необратимо.")){
+      localStorage.removeItem(STORAGE_KEY);
+      renderReg();
+      statusEl.className = "status info";
+      statusEl.textContent = "Реестр очищен.";
+      showToast("Реестр очищен");
+    }
+  });
+  (function init(){
+    $("e_docDate").value = todayISO();
+    const list = loadReg();
+    if(list.length){
+      const max = Math.max(...list.map(x => Number(x.number) || 0));
+      $("e_docNum").value = String(max + 1);
+    }
+    for(let i=0;i<3;i++) addRow();
+    renderReg();
+  })();
+})();
+
+/* СТАРТ */
+renderDashboard();
+
+})();
+</script>
+</body>
+</html>
